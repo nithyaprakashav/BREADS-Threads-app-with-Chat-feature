@@ -5,7 +5,8 @@ import './index.css'
 import { ChakraProvider} from "@chakra-ui/provider"
 import {mode} from "@chakra-ui/theme-tools"
 import {extendTheme} from '@chakra-ui/react'
-import { ColorModeScript } from '@chakra-ui/react'
+import { ColorModeScript } from '@chakra-ui/color-mode'
+import { BrowserRouter } from 'react-router-dom'
 
 
 
@@ -15,13 +16,13 @@ const styles = {
     body:{
       color:mode('gray.800', 'whiteAlpha.900')(props),
       bg:mode('gray.100','#101010')(props),
-    }
-  }) 
+    },
+  }),
 }
 
 const config = {
   intialColorMode : "dark",
-  useSystemColorMode:false
+  useSystemColorMode:true
 }
 
 const colors = {
@@ -35,10 +36,13 @@ const theme = extendTheme({config , styles, colors})
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
+
+    <BrowserRouter>
     <ChakraProvider theme={theme}>
     <ColorModeScript initialColorMode={theme.config.initialColorMode} />
       <App />
     </ChakraProvider>
+    </BrowserRouter>
     
   </React.StrictMode>,
 )
