@@ -86,6 +86,27 @@ const UserNavbar = () => {
 
                 </Flex>
             </Flex>
+
+            <Flex w={"full"} >
+                <Flex 
+                flex={1} 
+                justifyContent={"center"}
+                pb={3}
+                cursor={"pointer"}
+                borderBottom={"1.5px solid white"}
+                >
+                    <Text fontWeight={"bold"}>Breads</Text>
+                </Flex>
+                <Flex flex={1}
+                justifyContent={"center"}
+                borderBottom={"1px solid gray"}
+                color={"gray.light"}
+                pb={3}
+                cursor={"pointer"}
+                >
+                    <Text>Replies</Text>
+                </Flex>
+            </Flex>
         </VStack>
      );
 }
