@@ -1,7 +1,24 @@
-import { Avatar, Box,Text, Flex, VStack } from "@chakra-ui/react";
+import { Avatar, Box,Text, Flex, VStack, Menu, MenuButton, Portal, MenuList, MenuItem } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
+import {BsInstagram } from "react-icons/bs"
+import {CgMoreO} from "react-icons/cg"
+import { useToast } from '@chakra-ui/react'
 
 const UserNavbar = () => {
+    const toast = useToast()
+    const copyUrl =() => {
+        const currUrl = window.location.href
+        navigator.clipboard.writeText(currUrl).then(()=>{
+            
+            toast({
+                title: ` Profile link copied to your clipboard`,
+                position: 'top-right',
+                isClosable: true,
+                background: "gray.dark"
+              })
+        })
+        
+    }
     return ( 
         <VStack
         gap={4}
@@ -49,7 +66,25 @@ const UserNavbar = () => {
                     </Box>
                     <Link color="gray.light">instagram.com</Link>
                 </Flex>
-                <Flex></Flex>
+                <Flex>
+                    <Box className="icon-container">
+                       <BsInstagram size={24} cursor={"pointer"}/> 
+                    </Box>
+                    <Box className="icon-container">
+                        <Menu>
+                            <MenuButton>
+                                <CgMoreO size={24} cursor={"pointer"}/> 
+                            </MenuButton>
+                            <Portal>
+                                <MenuList bg={"gray.dark"}>
+                                    <MenuItem bg={"gray.dark"} onClick={copyUrl}>Copy Link</MenuItem>
+                                </MenuList>
+                            </Portal>
+                        </Menu>   
+                    </Box>
+
+
+                </Flex>
             </Flex>
         </VStack>
      );
