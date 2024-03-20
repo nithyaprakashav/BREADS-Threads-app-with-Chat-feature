@@ -1,4 +1,4 @@
-import { Flex , Image, useColorMode } from "@chakra-ui/react";
+import { Flex , Image, useColorMode ,Text} from "@chakra-ui/react";
 
 const NavBar = () => {
 
@@ -14,6 +14,12 @@ const NavBar = () => {
             src={ colorMode == "dark" ? "/light-logo.svg" : "/dark-logo.svg"}
             onClick={toggleColorMode}
             />
+            <Text 
+            fontSize={"large"} 
+            pl={1} 
+            onClick={toggleColorMode}
+            cursor={"pointer"}
+            >Breads</Text>
         </Flex>
      );
 }
