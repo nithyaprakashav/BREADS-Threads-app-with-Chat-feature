@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import Icons from "./Icons";
 import { useState } from "react";
 
-const UserPost = () => {
+const UserPost = ({likes , replies , postImg , postTitle}) => {
     const [liked , setLiked] = useState(false)
     return ( 
         <Link to={"/nithyaprakash/post/1"}>
@@ -67,15 +67,15 @@ const UserPost = () => {
                         </Flex>
                     </Flex>
 
-                    <Text fontSize={"sm"}>Hey guys!! wassup!</Text>
-                    <Box
+                    <Text fontSize={"sm"}>{postTitle}</Text>
+                    {postImg && (<Box
                     borderRadius={6}
                     overflow={"hidden"}
                     border={"1px solid"}
                     borderColor={"gray.light"}
                     >
-                        <Image src="np-avatar.jpg" w={"full"}></Image>
-                    </Box>
+                        <Image src={postImg} w={"full"}></Image>
+                    </Box>)}
                     <Flex
                     gap={3}
                     my={1}
@@ -84,9 +84,9 @@ const UserPost = () => {
                     </Flex>
 
                     <Flex gap={2} alignItems={"center"}>
-                        <Text color={"gray.light"} fontSize={"sm"}>22 replies</Text>
+                        <Text color={"gray.light"} fontSize={"sm"}>{replies} replies</Text>
                         <Box w={0.5} h={0.5} borderRadius={"full"} bg={"gray.light"} fontSize={"sm"} ></Box>
-                        <Text color={"gray.light"} fontSize={"sm"}>3012 likes</Text>
+                        <Text color={"gray.light"} fontSize={"sm"}>{likes} likes</Text>
                     </Flex>
 
                 </Flex>
