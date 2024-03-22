@@ -41,4 +41,46 @@ const signupUser = async (req, res) => {
 }
 
 
-export {signupUser}
+const loginUser = async (req ,res) => {
+    try {
+        const {username , password} = req.body;
+        const user = await User.findOne({username})
+        if(!user){
+            return res.status(400).json({mssg : "Invalid Username"})
+        }
+        const isPassword = await bcrypt.compare(password , user.password)
+        if(!isPassword) return res.status(400).json({mssg : "Invalid Password"})
+        generateToken(user._id  , res)
+
+        res.status(200).json({
+            id:user._id,
+            name:user.name , 
+            email : user.email, 
+            username: user.username
+        })
+
+    } catch (err) {
+        res.status(500).json({mssg: err.message})
+    }
+}
+
+
+const logoutUser = (req ,res) => {
+    try {
+        res.cookie("jwt" , "" , {maxAge: 1})
+        res.status(200).json({mssg:"Logout success"})
+    } catch (err) {
+        res.status(500).json({mssg: err.message})
+    }
+}
+
+
+const followUnfollowUser = async (req, res) => {
+    try {
+        
+    } catch (err) {
+        res.status(500).json({mssg: err.message})
+    }
+}
+
+export {signupUser , loginUser , logoutUser , followUnfollowUser}
