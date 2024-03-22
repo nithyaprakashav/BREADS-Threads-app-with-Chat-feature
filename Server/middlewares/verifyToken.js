@@ -1,4 +1,5 @@
-import User from "../models/UserModel"
+import User from "../models/UserModel.js"
+import jwt from "jsonwebtoken"
 
 
 const verifyToken = async ( req , res ,next) => {
