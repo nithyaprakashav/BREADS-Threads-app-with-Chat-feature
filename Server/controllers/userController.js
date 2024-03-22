@@ -1,3 +1,4 @@
+import generateToken from "../Utils/generateToken.js"
 import User from "../models/UserModel.js"
 import bcrypt from 'bcrypt'
 
@@ -21,6 +22,8 @@ const signupUser = async (req, res) => {
         await newUser.save()
 
         if(newUser){
+
+            generateToken(newUser._id , res);
             res.status(201).json({
                 _id : newUser._id,
                 name:newUser.name,
