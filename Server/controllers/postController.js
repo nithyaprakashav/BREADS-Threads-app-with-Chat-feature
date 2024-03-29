@@ -50,3 +50,24 @@ export const deletePost = async (req , res) => {
         res.status(400).json({mssg:err.message})
     }
 }
+
+export const likeUnlikePost = async (req, res) => {
+    try {
+        const {id:postId} = req.params
+        const userId  = req.user._id
+        const post = await Post.findById(postId)
+
+        if(!post) return res.status(404).json({mssg:"post not found"})
+        const isUserLikedPost = post.likes.includes(userId)
+        if(isUserLikedPost){
+            await Post.updateOne({_id:postId} , {$pull:{likes:userId}})
+            res.status(200).json({mssg:"post unliked successfully"})
+        }else{
+            post.likes.push(userId)
+            await post.save()
+            res.status(200).json({mssg:"post liked successfully"})
+        }
+    } catch (err) {
+        res.status(400).json({mssg:err.message})
+    }
+}
