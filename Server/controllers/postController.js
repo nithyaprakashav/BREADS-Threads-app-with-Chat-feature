@@ -71,3 +71,31 @@ export const likeUnlikePost = async (req, res) => {
         res.status(400).json({mssg:err.message})
     }
 }
+
+export const commentPost = async(req , res) => {
+    try {
+        const {text} = req.body
+        const {id:postId}= req.params
+        const userId = req.user._id
+        const profilePic = req.user.profilePic
+        const username  = req.user.username
+
+        if(!text) return res.status(400).json({mssg:"Text fields are required"})
+
+        if(profilePic) return res.status(400).json(profilePic)
+        // if(username) return res.status(400).json(username)
+        
+
+        const post = await Post.findById(postId)
+        if(!post) return res.status(404).json({mssg:"Post not found"})
+        const comment = {userId , text , username:username , profilePic:profilePic}
+
+        post.comments.push(comment)
+        await post.save()
+
+        res.status(200).json({mssg:"Comment added successfully" , post})
+        
+    } catch (err) {
+        res.status(500).json({error:err.message})
+    }
+}
