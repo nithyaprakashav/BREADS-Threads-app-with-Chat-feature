@@ -19,7 +19,7 @@ const postSchema = mongoose.Schema({
         ref:"User",
         default:[],
     },
-    replies:[
+    comments:[
         {
             userId:{
                 type: mongoose.Schema.Types.ObjectId,
@@ -31,10 +31,12 @@ const postSchema = mongoose.Schema({
                 required: true,
             },
             userProfilePic:{
-                type: String , 
+                type: String ,
+                
             },
             userName:{
-                type: String
+                type: String,
+               
             }
         }
     ]
