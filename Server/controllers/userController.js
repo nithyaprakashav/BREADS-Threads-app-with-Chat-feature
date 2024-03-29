@@ -56,7 +56,8 @@ const loginUser = async (req ,res) => {
             id:user._id,
             name:user.name , 
             email : user.email, 
-            username: user.username
+            username: user.username,
+            profilePic: user.profilePic
         })
 
     } catch (err) {
