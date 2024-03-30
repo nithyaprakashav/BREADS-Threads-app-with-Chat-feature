@@ -24,6 +24,30 @@ import authScreenAtom from '../atoms/authAtom'
 export default function SignupCard() {
   const [showPassword, setShowPassword] = useState(false)
   const [authScreen,setAuthScreen] = useRecoilState(authScreenAtom)
+  const [inputs , setInputs] = useState({
+    firstname:"",
+    lastname:"",
+    username:"",
+    email:"",
+    password:""
+  })
+
+  const handleSubmit =async () => {
+    console.log(inputs)
+    try {
+      const response = await fetch("/api/users/signup" , {
+        method:"POST",
+        headers:{
+          "Content-Type":"application/json"
+        },
+        body:JSON.stringify(inputs)
+      })
+      const data= await response.json()
+      console.log(data)
+    } catch (err) {
+      console.log(err)
+    }
+  }
 
   return (
     <Flex
@@ -46,31 +70,31 @@ export default function SignupCard() {
               <Box>
                 <FormControl  isRequired>
                   <FormLabel>First Name</FormLabel>
-                  <Input type="text" />
+                  <Input type="text" onChange={(e) => setInputs({...inputs , firstname:e.target.value})} value={inputs.firstname}/>
                 </FormControl>
               </Box>
               <Box>
                 <FormControl  isRequired>
                   <FormLabel>Last Name</FormLabel>
-                  <Input type="text" />
+                  <Input type="text" onChange={(e) => setInputs({...inputs , lastname:e.target.value})} value={inputs.lastname}/>
                 </FormControl>
               </Box>
             </HStack>
 
             <FormControl isRequired>
               <FormLabel> Username</FormLabel>
-              <Input type="email" />
+              <Input type="email" onChange={(e) => setInputs({...inputs , username:e.target.value})} value={inputs.username} />
             </FormControl>
 
             <FormControl isRequired>
               <FormLabel>Email address</FormLabel>
-              <Input type="email" />
+              <Input type="email" onChange={(e) => setInputs({...inputs , email:e.target.value})} value={inputs.email}/>
             </FormControl>
             
             <FormControl  isRequired>
               <FormLabel>Password</FormLabel>
               <InputGroup>
-                <Input type={showPassword ? 'text' : 'password'} />
+                <Input type={showPassword ? 'text' : 'password'} onChange={(e) => setInputs({...inputs , password:e.target.value})} value={inputs.password} />
                 <InputRightElement h={'full'}>
                   <Button
                     variant={'ghost'}
@@ -88,7 +112,9 @@ export default function SignupCard() {
                 color={'white'}
                 _hover={{
                   bg: useColorModeValue("gray.700" , "gray.800"),
-                }}>
+                }}
+                onClick={handleSubmit}
+                >
                 Sign up
               </Button>
             </Stack>
