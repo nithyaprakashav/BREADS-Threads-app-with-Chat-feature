@@ -15,6 +15,7 @@ import {
   Text,
   useColorModeValue,
   Link,
+  useToast,
 } from '@chakra-ui/react'
 import { useState } from 'react'
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
@@ -24,6 +25,8 @@ import authScreenAtom from '../atoms/authAtom'
 export default function SignupCard() {
   const [showPassword, setShowPassword] = useState(false)
   const [authScreen,setAuthScreen] = useRecoilState(authScreenAtom)
+  const toast = useToast()
+
   const [inputs , setInputs] = useState({
     firstname:"",
     lastname:"",
@@ -43,7 +46,19 @@ export default function SignupCard() {
         body:JSON.stringify(inputs)
       })
       const data= await response.json()
-      console.log(data)
+      if(data.error){
+        toast({
+          title:"Error",
+          description:data.error,
+          status:"error",
+          duration:3000,
+          isClosable:true
+        })
+        return
+      }
+
+      localStorage.setItem("userInfo" , JSON.stringify(data))
+
     } catch (err) {
       console.log(err)
     }
