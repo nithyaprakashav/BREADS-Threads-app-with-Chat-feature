@@ -3,6 +3,7 @@ import { Container } from "@chakra-ui/react"
 import {Routes , Route, Navigate} from "react-router-dom"
 import PostPage from "./pages/PostPage"
 import NavBar from "./components/NavBar"
+import LogoutButton from "./components/LogoutButton"
 import UserPage from "./pages/UserPage"
 import HomePage from "./pages/HomePage"
 import AuthPage from "./pages/AuthPage"
@@ -23,6 +24,8 @@ function App() {
         <Route path="/:username" element={<UserPage/>} />
         <Route path="/:username/post/:pid" element={<PostPage/>} />
       </Routes>
+
+      {user && <LogoutButton/>}
     </Container>
   )
 }
