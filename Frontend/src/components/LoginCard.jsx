@@ -20,10 +20,42 @@ import { useState } from 'react'
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
 import { useRecoilState } from 'recoil'
 import authScreenAtom from '../atoms/authAtom'
+import useShowToast from '../hooks/useShowToast'
+import userAtom from '../atoms/userAtom'
 
 export default function LoginCard() {
   const [showPassword, setShowPassword] = useState(false)
   const [authScreen,setAuthScreen] = useRecoilState(authScreenAtom)
+  const [user , setUser ] = useRecoilState(userAtom)
+  const [inputs  , setInputs] = useState({
+    username:"",
+    password:""
+  })
+  const showToast = useShowToast()
+
+  const handleLogin = async () => {
+    try {
+      const response = await fetch("/api/users/login", {
+        method:"POST",
+        headers:{
+          "Content-Type":"application/json"
+        },
+        body: JSON.stringify(inputs)
+      })
+      const data = await response.json()
+      // console.log(data)
+      if(data.error){
+        showToast("Error" , data.error , "error")
+        return
+      }
+      localStorage.setItem("logininfo" , JSON.stringify(data))
+      setUser(data)
+      // console.log(inputs)
+    } catch (err) {
+      showToast("Error" , err , "error")
+    }
+  }
+
 
   return (
     <Flex
@@ -51,13 +83,19 @@ export default function LoginCard() {
         
             <FormControl isRequired>
               <FormLabel> Username</FormLabel>
-              <Input type="text" />
+              <Input type="text" 
+              value={inputs.username}
+              onChange={(e) => setInputs((inputs) => ({...inputs , username:e.target.value}))}
+              />
             </FormControl>
 
             <FormControl  isRequired>
               <FormLabel>Password</FormLabel>
               <InputGroup>
-                <Input type={showPassword ? 'text' : 'password'} />
+                <Input type={showPassword ? 'text' : 'password'}
+                value={inputs.password}
+                onChange={(e) => setInputs((inputs) => ({...inputs , password:e.target.value}))}
+                />
                 <InputRightElement h={'full'}>
                   <Button
                     variant={'ghost'}
@@ -69,6 +107,7 @@ export default function LoginCard() {
             </FormControl>
             <Stack spacing={10} pt={2}>
               <Button
+                onClick={handleLogin}
                 loadingText="Submitting"
                 size="lg"
                 bg={useColorModeValue("gray.600" , "gray.700")}
