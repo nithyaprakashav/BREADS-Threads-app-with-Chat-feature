@@ -72,7 +72,7 @@ const logoutUser = (req ,res) => {
         res.cookie("jwt" , "" , {maxAge: 1})
         res.status(200).json({mssg:"Logout success"})
     } catch (err) {
-        res.status(500).json({mssg: err.message})
+        res.status(500).json({error: err.message})
     }
 }
 
@@ -83,7 +83,7 @@ const followUnfollowUser = async (req, res) => {
         const userToActOn = await User.findById(id)
         const currUser = await User.findById(req.user._id)
 
-        if(id === req.user._id.toString()) return res.status(400).json({mssg: "you cannot follow or unfollow yourself"})
+        if(id === req.user._id.toString()) return res.status(400).json({error: "you cannot follow or unfollow yourself"})
 
         if(!userToActOn || !currUser) return res.status(500).json({error: "User not found"})
 
@@ -100,7 +100,7 @@ const followUnfollowUser = async (req, res) => {
         }
 
     } catch (err) {
-        res.status(500).json({mssg: err.message})
+        res.status(500).json({error: err.message})
     }
 }
 
@@ -110,10 +110,10 @@ const updateUser = async (req, res) => {
         const userId = req.user._id
         let user = await User.findById(userId)
         if(!user){
-            return res.status(400).json({message: "User not found"})
+            return res.status(400).json({error: "User not found"})
         }
 
-        if(req.params.id !== userId.toString()) return res.status(400).json({message:"You cannot update other user's profile"})
+        if(req.params.id !== userId.toString()) return res.status(400).json({error:"You cannot update other user's profile"})
 
         if(password){
             const salt = await bcrypt.genSalt(10)
@@ -138,7 +138,7 @@ const getUserProfile = async (req, res) => {
     const {username} = req.params
     try {
         const user = await User.findOne({username}).select("-password").select("-updatedAt")
-        if(!user) return res.status(400).json({mssg : "User Not Found"})
+        if(!user) return res.status(400).json({error : "User Not Found"})
         res.status(200).json(user)
     } catch (err) {
         res.status(500).json({error: err.message})
