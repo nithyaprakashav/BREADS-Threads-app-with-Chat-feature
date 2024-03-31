@@ -55,10 +55,10 @@ export default function SignupCard() {
         return
       }
 
-      localStorage.setItem("userInfo" , JSON.stringify(data))
+      localStorage.setItem("userinfo" , JSON.stringify(data))
       setUser(data)
     } catch (err) {
-      console.log(err)
+      showToast("Error" , err , "error")
     }
   }
 
