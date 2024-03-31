@@ -22,9 +22,10 @@ const LogoutButton = () => {
                 showToast("Error" , data.error , "error")
             }
             localStorage.removeItem("userinfo")
+            console.log(localStorage.getItem("userinfo"))
             setUser(null)
         } catch (err) {
-            console.log(err)
+            showToast("Error" , err , "error")
         }
     }
 
