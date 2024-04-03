@@ -14,58 +14,64 @@ import {
   AvatarBadge,
   IconButton,
   Center,
+  Box,
 } from '@chakra-ui/react'
 import { SmallCloseIcon } from '@chakra-ui/icons'
 
 export default function UpdateProfile() {
   return (
     <Flex
-      minH={'100vh'}
+      
       align={'center'}
       justify={'center'}
-      bg={useColorModeValue('gray.50', 'gray.800')}>
+      >
       <Stack
         spacing={4}
         w={'full'}
         maxW={'md'}
-        bg={useColorModeValue('white', 'gray.700')}
+        bg={useColorModeValue('white', 'gray.dark')}
         rounded={'xl'}
         boxShadow={'lg'}
         p={6}
         my={12}>
         <Heading lineHeight={1.1} fontSize={{ base: '2xl', sm: '3xl' }}>
-          User Profile Edit
+          Edit User Profile 
         </Heading>
         <FormControl id="userName">
-          <FormLabel>User Icon</FormLabel>
           <Stack direction={['column', 'row']} spacing={6}>
             <Center>
-              <Avatar size="xl" src="https://bit.ly/sage-adebayo">
-                <AvatarBadge
-                  as={IconButton}
-                  size="sm"
-                  rounded="full"
-                  top="-10px"
-                  colorScheme="red"
-                  aria-label="remove Image"
-                  icon={<SmallCloseIcon />}
-                />
-              </Avatar>
+              <Avatar size="xl" src="https://bit.ly/sage-adebayo"/>
             </Center>
             <Center w="full">
-              <Button w="full">Change Icon</Button>
+              <Button w="full">Change Profile Picture</Button>
             </Center>
           </Stack>
         </FormControl>
-        <FormControl id="userName" isRequired>
+
+        <HStack>
+              <Box>
+                <FormControl  isRequired>
+                  <FormLabel>First Name</FormLabel>
+                  <Input type="text" placeholder="Nithya Prakash"/>
+                </FormControl>
+              </Box>
+              <Box>
+                <FormControl  isRequired>
+                  <FormLabel>Last Name</FormLabel>
+                  <Input type="text" placeholder="A V"/>
+                </FormControl>
+              </Box>
+            </HStack>
+
+        <FormControl  isRequired>
           <FormLabel>User name</FormLabel>
           <Input
-            placeholder="UserName"
+          placeholder="nithyaprakashav"
             _placeholder={{ color: 'gray.500' }}
             type="text"
           />
         </FormControl>
-        <FormControl id="email" isRequired>
+        <FormControl  isRequired>
           <FormLabel>Email address</FormLabel>
           <Input
             placeholder="your-email@example.com"
@@ -73,10 +79,10 @@ export default function UpdateProfile() {
             type="email"
           />
         </FormControl>
-        <FormControl id="password" isRequired>
+        <FormControl  isRequired>
           <FormLabel>Password</FormLabel>
           <Input
-            placeholder="password"
+            placeholder="3#83fne#*"
             _placeholder={{ color: 'gray.500' }}
             type="password"
           />
