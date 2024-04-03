@@ -27,9 +27,12 @@ const signupUser = async (req, res) => {
             generateToken(newUser._id , res);
             res.status(201).json({
                 _id : newUser._id,
-                name:newUser.name,
+                firstname:newUser.name,
+                lastname:newUser.name,
                 email: newUser.email,
                 username: newUser.username,
+                bio:newUser.bio,
+                profilePic: newUser.profilePic,
             })
         }else{
             res.status(400).json({error: "Invalid user data"})
@@ -55,10 +58,12 @@ const loginUser = async (req ,res) => {
 
         res.status(200).json({
             id:user._id,
-            name:user.name , 
+            firstname:user.firstname,
+            lastname:user.lastname, 
             email : user.email, 
             username: user.username,
-            profilePic: user.profilePic
+            profilePic: user.profilePic,
+            bio:user.bio,
         })
 
     } catch (err) {
