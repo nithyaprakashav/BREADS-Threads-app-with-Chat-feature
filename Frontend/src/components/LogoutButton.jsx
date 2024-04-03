@@ -2,6 +2,7 @@ import { Button, useToast } from "@chakra-ui/react";
 import { useRecoilState } from "recoil";
 import userAtom from "../atoms/userAtom";
 import useShowToast from "../hooks/useShowToast";
+import { IoLogOutOutline } from "react-icons/io5";
 
 const LogoutButton = () => {
     const showToast = useShowToast()
@@ -23,6 +24,8 @@ const LogoutButton = () => {
             }
             localStorage.removeItem("userinfo")
             console.log(localStorage.getItem("userinfo"))
+            localStorage.removeItem("logininfo")
+            console.log(localStorage.getItem("logininfo"))
             setUser(null)
         } catch (err) {
             showToast("Error" , err , "error")
@@ -36,7 +39,9 @@ const LogoutButton = () => {
         right={"30px"}
         size={"sm"}
         onClick={handleLogout}
-        >Logout</Button>
+        >
+            <IoLogOutOutline size={20} />
+        </Button>
      );
 }
  
