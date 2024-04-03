@@ -11,14 +11,27 @@ import {
   useColorModeValue,
   HStack,
   Avatar,
-  AvatarBadge,
-  IconButton,
   Center,
   Box,
 } from '@chakra-ui/react'
 import { SmallCloseIcon } from '@chakra-ui/icons'
+import { useRecoilState } from 'recoil'
+import userAtom from '../atoms/userAtom'
+import { useState } from 'react'
 
 export default function UpdateProfile() {
+    const [user , setUser ] = useRecoilState(userAtom)
+    const [inputs, setInputs] = useState({
+        firstname: user.firstname, 
+        lastname: user.lastname , 
+        username: user.username , 
+        email: user.email , 
+        password: "" , 
+        bio: user.bio , 
+        profilePic:user.profilePic
+    })
+
+
   return (
     <Flex
       
@@ -33,14 +46,14 @@ export default function UpdateProfile() {
         rounded={'xl'}
         boxShadow={'lg'}
         p={6}
-        my={12}>
+        >
         <Heading lineHeight={1.1} fontSize={{ base: '2xl', sm: '3xl' }}>
           Edit User Profile 
         </Heading>
         <FormControl id="userName">
           <Stack direction={['column', 'row']} spacing={6}>
             <Center>
-              <Avatar size="xl" src="https://bit.ly/sage-adebayo"/>
+              <Avatar size="xl" boxShadow={"md"}  src={inputs.profilePic}/>
             </Center>
             <Center w="full">
               <Button w="full">Change Profile Picture</Button>
@@ -52,13 +65,17 @@ export default function UpdateProfile() {
               <Box>
                 <FormControl  isRequired>
                   <FormLabel>First Name</FormLabel>
-                  <Input type="text" placeholder="Nithya Prakash"/>
+                  <Input type="text" placeholder="Nithya Prakash"
+                  value={inputs.firstname}
+                  />
                 </FormControl>
               </Box>
               <Box>
                 <FormControl  isRequired>
                   <FormLabel>Last Name</FormLabel>
-                  <Input type="text" placeholder="A V"/>
+                  <Input type="text" placeholder="A V"
+                  value={inputs.lastname}
+                  />
                 </FormControl>
               </Box>
             </HStack>
@@ -69,6 +86,7 @@ export default function UpdateProfile() {
           placeholder="nithyaprakashav"
             _placeholder={{ color: 'gray.500' }}
             type="text"
+            value={inputs.username}
           />
         </FormControl>
         <FormControl  isRequired>
@@ -77,6 +95,7 @@ export default function UpdateProfile() {
             placeholder="your-email@example.com"
             _placeholder={{ color: 'gray.500' }}
             type="email"
+            value={inputs.email}
           />
         </FormControl>
         <FormControl  isRequired>
@@ -85,6 +104,16 @@ export default function UpdateProfile() {
             placeholder="3#83fne#*"
             _placeholder={{ color: 'gray.500' }}
             type="password"
+            value={inputs.password}
+          />
+        </FormControl>
+        <FormControl >
+          <FormLabel>Bio</FormLabel>
+          <Input
+            placeholder="Enter your Bio here"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            value={inputs.bio}
           />
         </FormControl>
         <Stack spacing={6} direction={['column', 'row']}>
@@ -98,11 +127,11 @@ export default function UpdateProfile() {
             Cancel
           </Button>
           <Button
-            bg={'blue.400'}
+            bg={'green.400'}
             color={'white'}
             w="full"
             _hover={{
-              bg: 'blue.500',
+              bg: 'green.500',
             }}>
             Submit
           </Button>
