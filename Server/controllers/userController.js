@@ -112,7 +112,7 @@ const followUnfollowUser = async (req, res) => {
 
 const updateUser = async (req, res) => {
     try {
-        const {name , email , username , password , bio}= req.body
+        const {firstname, lastname , email , username , password , bio}= req.body
         let {profilePic} = req.body
         const userId = req.user._id
         let user = await User.findById(userId)
@@ -136,13 +136,14 @@ const updateUser = async (req, res) => {
             profilePic = uploadedResponse.secure_url
         }
 
-        user.name = name || user.name
+        user.firstname = firstname || user.name
+        user.lastname = lastname || user.name
         user.email = email || user.email
         user.username = username || user.username
         user.profilePic = profilePic || user.profilePic
         user.bio = bio || user.bio
         user = await user.save()
-        res.status(200).json({message: "Profile updated successfully" , user})
+        res.status(200).json(user)
 
     } catch (err) {
         res.status(500).json({error: err.message})
