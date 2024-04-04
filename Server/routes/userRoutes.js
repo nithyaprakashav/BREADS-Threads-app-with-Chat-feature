@@ -8,7 +8,7 @@ router.post("/signup" , signupUser)
 router.post("/login" , loginUser)
 router.post("/logout" , logoutUser)
 router.post("/follow/:id" ,verifyToken, followUnfollowUser)
-router.post("/update/:id" ,verifyToken, updateUser)
+router.patch("/update/:id" ,verifyToken, updateUser)
 router.get("/profile/:username" , getUserProfile)
 
 export default router
