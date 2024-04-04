@@ -19,9 +19,11 @@ import { useRecoilState } from 'recoil'
 import userAtom from '../atoms/userAtom'
 import { useRef, useState } from 'react'
 import useImgPreview from '../hooks/useImgPreview'
+import useShowToast from '../hooks/useShowToast'
 
 export default function UpdateProfile() {
     const [user , setUser ] = useRecoilState(userAtom)
+    const showToast = useShowToast()
     const [inputs, setInputs] = useState({
         firstname: user.firstname, 
         lastname: user.lastname , 
@@ -35,8 +37,19 @@ export default function UpdateProfile() {
     const fileRef = useRef(null)
 
     const {handleImageChange , imageUrl} = useImgPreview()
+
+    const handleSubmit =  async(e) => {
+      e.preventDefault()
+      try {
+        console.log(inputs)
+      } catch (err) {
+        showToast("Error" , err.message , "error")
+      }
+    }
     
   return (
+    
+    <form onSubmit={handleSubmit}>
     <Flex
       
       align={'center'}
@@ -70,7 +83,7 @@ export default function UpdateProfile() {
 
         <HStack>
               <Box>
-                <FormControl  isRequired>
+                <FormControl >
                   <FormLabel>First Name</FormLabel>
                   <Input type="text" placeholder="Nithya Prakash"
                   value={inputs.firstname}
@@ -105,7 +118,7 @@ export default function UpdateProfile() {
             value={inputs.email}
           />
         </FormControl>
-        <FormControl  isRequired>
+        <FormControl  >
           <FormLabel>Password</FormLabel>
           <Input
             placeholder="3#83fne#*"
@@ -139,11 +152,13 @@ export default function UpdateProfile() {
             w="full"
             _hover={{
               bg: 'green.500',
-            }}>
+            }}
+            type='submit'>
             Submit
           </Button>
         </Stack>
       </Stack>
     </Flex>
+    </form>
   )
 }
