@@ -41,7 +41,15 @@ export default function UpdateProfile() {
     const handleSubmit =  async(e) => {
       e.preventDefault()
       try {
-        console.log(inputs)
+        const response = await fetch(`api/users/update/${user.id}`,{
+          method:"PUT",
+          headers:{
+            "Content-Type":"application/json"
+          },
+          body: JSON.stringify({...inputs , profilePic:imageUrl})
+        })
+        const data = await response.json()
+        console.log(data)
       } catch (err) {
         showToast("Error" , err.message , "error")
       }

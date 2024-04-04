@@ -19,7 +19,7 @@ const useImgPreview = () => {
             showToast("Error" , "Please select image files only" , "error")
             setImageUrl(null)
         }
-        console.log(imageUrl)
+        
     }
 
     return {handleImageChange , imageUrl};
