@@ -14,7 +14,7 @@ import {
   Center,
   Box,
 } from '@chakra-ui/react'
-import { SmallCloseIcon } from '@chakra-ui/icons'
+
 import { useRecoilState } from 'recoil'
 import userAtom from '../atoms/userAtom'
 import { useRef, useState } from 'react'
@@ -41,7 +41,7 @@ export default function UpdateProfile() {
     const handleSubmit =  async(e) => {
       e.preventDefault()
       try {
-        const response = await fetch(`api/users/update/${user.id}`,{
+        const response = await fetch(`/api/users/update/${user._id}`,{
           method:"PUT",
           headers:{
             "Content-Type":"application/json"
@@ -49,7 +49,14 @@ export default function UpdateProfile() {
           body: JSON.stringify({...inputs , profilePic:imageUrl})
         })
         const data = await response.json()
+        if(data.error){
+          showToast("Error" , data.error , "error")
+          return
+        }
+        showToast("Success" , "Profile Updated successfully" ,"success")
+        setUser(data)
         console.log(data)
+        localStorage.setItem("userinfo" , JSON.stringify(data))
       } catch (err) {
         showToast("Error" , err.message , "error")
       }
@@ -95,6 +102,7 @@ export default function UpdateProfile() {
                   <FormLabel>First Name</FormLabel>
                   <Input type="text" placeholder="Nithya Prakash"
                   value={inputs.firstname}
+                  onChange={(e) => setInputs({...inputs , firstname: e.target.value})}
                   />
                 </FormControl>
               </Box>
@@ -103,6 +111,7 @@ export default function UpdateProfile() {
                   <FormLabel>Last Name</FormLabel>
                   <Input type="text" placeholder="A V"
                   value={inputs.lastname}
+                  onChange={(e) => setInputs({...inputs , lastname: e.target.value})}
                   />
                 </FormControl>
               </Box>
@@ -115,6 +124,7 @@ export default function UpdateProfile() {
             _placeholder={{ color: 'gray.500' }}
             type="text"
             value={inputs.username}
+            onChange={(e) => setInputs({...inputs , username: e.target.value})}
           />
         </FormControl>
         <FormControl  isRequired>
@@ -124,6 +134,7 @@ export default function UpdateProfile() {
             _placeholder={{ color: 'gray.500' }}
             type="email"
             value={inputs.email}
+            onChange={(e) => setInputs({...inputs , email: e.target.value})}
           />
         </FormControl>
         <FormControl  >
@@ -133,6 +144,7 @@ export default function UpdateProfile() {
             _placeholder={{ color: 'gray.500' }}
             type="password"
             value={inputs.password}
+            onChange={(e) => setInputs({...inputs , password: e.target.value})}
           />
         </FormControl>
         <FormControl >
@@ -142,6 +154,7 @@ export default function UpdateProfile() {
             _placeholder={{ color: 'gray.500' }}
             type="text"
             value={inputs.bio}
+            onChange={(e) => setInputs({...inputs , bio: e.target.value})}
           />
         </FormControl>
         <Stack spacing={6} direction={['column', 'row']}>
