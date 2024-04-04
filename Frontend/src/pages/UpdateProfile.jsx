@@ -17,7 +17,8 @@ import {
 import { SmallCloseIcon } from '@chakra-ui/icons'
 import { useRecoilState } from 'recoil'
 import userAtom from '../atoms/userAtom'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
+import useImgPreview from '../hooks/useImgPreview'
 
 export default function UpdateProfile() {
     const [user , setUser ] = useRecoilState(userAtom)
@@ -31,7 +32,10 @@ export default function UpdateProfile() {
         profilePic:user.profilePic
     })
 
+    const fileRef = useRef(null)
 
+    const {handleImageChange , imageUrl} = useImgPreview()
+    
   return (
     <Flex
       
@@ -53,10 +57,13 @@ export default function UpdateProfile() {
         <FormControl id="userName">
           <Stack direction={['column', 'row']} spacing={6}>
             <Center>
-              <Avatar size="xl" boxShadow={"md"}  src={inputs.profilePic}/>
+              <Avatar size="xl" boxShadow={"md"}  src={imageUrl || inputs.profilePic}/>
             </Center>
             <Center w="full">
-              <Button w="full">Change Profile Picture</Button>
+              <Button w="full" onClick={() => fileRef.current.click()}>Change Profile Picture</Button>
+
+              <Input type='file' hidden ref={fileRef} onChange={handleImageChange} />
+
             </Center>
           </Stack>
         </FormControl>
