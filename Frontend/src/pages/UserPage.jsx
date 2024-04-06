@@ -25,10 +25,13 @@ const UserPage = () => {
             }
         }
         getUser()
-    },[username , showToast])
+    },[username])
+
+    if(!user) return null
+
     return ( 
         <>
-            <UserNavbar user={username}/>
+            <UserNavbar user={user}/>
 
             <UserPost likes={2001} replies={304} postImg={"/np-avatar.jpg"} postTitle={"Hey guys! wassup!!"} />
             <UserPost likes={3225} replies={287} postImg={"/me-khachith-pavan.jpg"} postTitle={"Group of three!"}/>
