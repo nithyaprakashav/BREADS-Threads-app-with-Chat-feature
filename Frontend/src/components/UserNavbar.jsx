@@ -5,7 +5,7 @@ import {CgMoreO} from "react-icons/cg"
 import { useToast } from '@chakra-ui/react'
 import {useRecoilValue} from "recoil"
 import userAtom from "../atoms/userAtom"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useShowToast from "../hooks/useShowToast";
 
 
@@ -14,6 +14,7 @@ const UserNavbar = ({user}) => {
     const showToast = useShowToast()
     const currUser = useRecoilValue(userAtom)
     const [following , setFollowing] = useState(user.following.includes(currUser._id))
+    
     console.log(following)
     const copyUrl =() => {
         const currUrl = window.location.href
@@ -43,13 +44,24 @@ const UserNavbar = ({user}) => {
                 return
             }
             console.log(data)
+            
+            if(following){
+                showToast("Success" , `Unfollowed ${user.firstname} ${user.lastname}`,"success")
+                user.followers.pop()
+            }else{
+                showToast("Success" , `Followed ${user.firstname} ${user.lastname}`,"success")
+                user.followers.push(currUser._id)
+            }
+
             setFollowing(!following)
 
         } catch (err) {
             showToast("Error" , err , "error")
         }
-        
     }
+    
+    
+
     return ( 
         <VStack
         gap={4}
