@@ -1,11 +1,15 @@
-import { Avatar, Box,Text, Flex, VStack, Menu, MenuButton, Portal, MenuList, MenuItem } from "@chakra-ui/react";
+import { Avatar, Box,Text, Flex, VStack, Menu, MenuButton, Portal, MenuList, MenuItem, Button } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import {BsInstagram } from "react-icons/bs"
 import {CgMoreO} from "react-icons/cg"
 import { useToast } from '@chakra-ui/react'
+import {useRecoilValue} from "recoil"
+import userAtom from "../atoms/userAtom"
 
-const UserNavbar = () => {
+
+const UserNavbar = ({user}) => {
     const toast = useToast()
+    const currUser = useRecoilValue(userAtom)
     const copyUrl =() => {
         const currUrl = window.location.href
         navigator.clipboard.writeText(currUrl).then(()=>{
@@ -31,10 +35,10 @@ const UserNavbar = () => {
                     <Text
                     fontSize={"2xl"}
                     >
-                        Nithya Prakash
+                        {user.firstname} {user.lastname}
                     </Text>
                     <Flex gap={2} alignItems={"center"} >
-                        <Text fontSize={"sm"} fontWeight={"bold"}>nithyaprakash</Text>
+                        <Text fontSize={"sm"} fontWeight={"bold"}>{user.username}</Text>
                         <Text fontSize={"xs"} 
                         bg={"gray.dark"}
                         color={"gray.light"}
@@ -46,17 +50,40 @@ const UserNavbar = () => {
                     </Flex>
                 </Box>
                 <Box>
-                    <Avatar
-                    name="NithyaPrakash"
-                    src="/np-avatar.jpg"
-                    size={"xl"}
-                    ></Avatar>
+                    {user.profilePic && (
+                        <Avatar
+                        name={user.username}
+                        src={user.profilePic}
+                        size={"xl"}
+                        ></Avatar>
+                    )
+                    }
+                    {!user.profilePic && (
+                        <Avatar
+                        name={user.username}
+                        src="https://bit.ly/broken-link"
+                        size={"xl"}
+                        ></Avatar>
+                    )
+                    }
                 </Box>
             </Flex>
-            <Text>MERN Stack developer looking for opportunities to work</Text>
+            <Text>{user.bio}</Text>
+
+            {currUser._id === user._id && (
+                <Link to={"/update"}>
+                    <Button size={"sm"} >Update Profile</Button>
+                </Link>
+            )}
+            {currUser._id === !user._id && (
+                <Link to={"/update"}>
+                    <Button size={"sm"} >Follow</Button>
+                </Link>
+            )}
+
             <Flex w={"full"} justifyContent={"space-between"}>
                 <Flex gap={2} alignItems={"center"}>
-                    <Text color={"gray.light"}>4.5k followers</Text>
+                    <Text color={"gray.light"}>{user.followers.length} followers</Text>
                     <Box 
                     width={1}
                     height={1}
