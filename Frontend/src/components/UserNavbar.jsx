@@ -5,11 +5,16 @@ import {CgMoreO} from "react-icons/cg"
 import { useToast } from '@chakra-ui/react'
 import {useRecoilValue} from "recoil"
 import userAtom from "../atoms/userAtom"
+import { useState } from "react";
+import useShowToast from "../hooks/useShowToast";
 
 
 const UserNavbar = ({user}) => {
     const toast = useToast()
+    const showToast = useShowToast()
     const currUser = useRecoilValue(userAtom)
+    const [following , setFollowing] = useState(user.following.includes(currUser._id))
+    console.log(following)
     const copyUrl =() => {
         const currUrl = window.location.href
         navigator.clipboard.writeText(currUrl).then(()=>{
@@ -21,6 +26,28 @@ const UserNavbar = ({user}) => {
                 background: "gray.dark"
               })
         })
+        
+    }
+    
+    const handleFollow = async () => {
+        try {
+            const response = await fetch(`api/users/follow/${user._id}`,{
+                method:"POST",
+                headers:{
+                    "Content-Type":"application/json"
+                }
+            })
+            const data = await response.json()
+            if(data.error){
+                showToast("Error" , data.error , "error")
+                return
+            }
+            console.log(data)
+            setFollowing(!following)
+
+        } catch (err) {
+            showToast("Error" , err , "error")
+        }
         
     }
     return ( 
@@ -75,10 +102,10 @@ const UserNavbar = ({user}) => {
                     <Button size={"sm"} >Update Profile</Button>
                 </Link>
             )}
-            {currUser._id === !user._id && (
-                <Link to={"/update"}>
-                    <Button size={"sm"} >Follow</Button>
-                </Link>
+            {currUser._id !== user._id && (
+                    <Button size={"sm"} onClick={handleFollow}>
+                        {following ? "Unfollow" : "Follow"}
+                        </Button>
             )}
 
             <Flex w={"full"} justifyContent={"space-between"}>
