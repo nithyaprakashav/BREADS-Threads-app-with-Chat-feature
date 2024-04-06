@@ -24,6 +24,7 @@ import useShowToast from '../hooks/useShowToast'
 export default function UpdateProfile() {
     const [user , setUser ] = useRecoilState(userAtom)
     const showToast = useShowToast()
+    const [isLoading , setIsLoading] = useState(false)
     const [inputs, setInputs] = useState({
         firstname: user.firstname, 
         lastname: user.lastname , 
@@ -40,6 +41,7 @@ export default function UpdateProfile() {
 
     const handleSubmit =  async(e) => {
       e.preventDefault()
+      setIsLoading(true)
       try {
         const response = await fetch(`/api/users/update/${user._id}`,{
           method:"PUT",
@@ -59,6 +61,8 @@ export default function UpdateProfile() {
         localStorage.setItem("userinfo" , JSON.stringify(data))
       } catch (err) {
         showToast("Error" , err.message , "error")
+      }finally{
+        setIsLoading(false)
       }
     }
     
@@ -174,7 +178,9 @@ export default function UpdateProfile() {
             _hover={{
               bg: 'green.500',
             }}
-            type='submit'>
+            type='submit'
+            isLoading={isLoading}
+            >
             Submit
           </Button>
         </Stack>

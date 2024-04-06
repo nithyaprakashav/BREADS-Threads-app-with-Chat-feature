@@ -14,6 +14,7 @@ const UserNavbar = ({user}) => {
     const showToast = useShowToast()
     const currUser = useRecoilValue(userAtom)
     const [following , setFollowing] = useState(user.following.includes(currUser._id))
+    const [isLoading , setIsLoading] = useState(false)
     
     console.log(following)
     const copyUrl =() => {
@@ -31,7 +32,12 @@ const UserNavbar = ({user}) => {
     }
     
     const handleFollow = async () => {
-        try {
+        if(!currUser){
+            showToast("Error" ,"You need to be logged in to follow/Unfollow","error")
+            return
+        }
+        setIsLoading(true)
+        try { 
             const response = await fetch(`api/users/follow/${user._id}`,{
                 method:"POST",
                 headers:{
@@ -57,6 +63,8 @@ const UserNavbar = ({user}) => {
 
         } catch (err) {
             showToast("Error" , err , "error")
+        }finally{
+            setIsLoading(false)
         }
     }
     
@@ -115,7 +123,7 @@ const UserNavbar = ({user}) => {
                 </Link>
             )}
             {currUser._id !== user._id && (
-                    <Button size={"sm"} onClick={handleFollow}>
+                    <Button size={"sm"} onClick={handleFollow} isLoading={isLoading}>
                         {following ? "Unfollow" : "Follow"}
                         </Button>
             )}
