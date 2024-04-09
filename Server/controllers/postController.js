@@ -1,20 +1,30 @@
 import User from "../models/UserModel.js"
 import Post from "../models/PostModel.js"
+import {v2 as cloudinary} from "cloudinary"
 
 export const createPost = async ( req , res) => {
+    
     try {
-        const {postedBy , text , img} = req.body
-        if(!postedBy || !text) return res.status(400).json({error: "postedBy and text fields are required"})
+        let {img} = req.body
+        const {postedBy , text } = req.body
+        
+        console.log(postedBy , "is available" , text)
+        if(!postedBy || !text) return res.status(400).json({error: "PostedBy and text fields are required"})
         const user = await User.findById(postedBy)
     if(!user) return res.status(404).json({error: "User not found"})
     if(user._id.toString() !== req.user._id.toString()){
-        return res.status(401).jsoj({error : "Unauthorized !!"})
+        return res.status(401).json({error:"Unauthorized"})
     }
     if(text.length > 500) return res.status(400).json({mssg: "Text must be less than 500 characters"})
 
+    if(img){
+        const uploadedResponse = await cloudinary.uploader.upload(img)
+        img = uploadedResponse.secure_url
+    }
+
     const newPost = new Post({postedBy , text ,img})
     await newPost.save()
-    res.status(201).json({mssg:"Post created successfully" , newPost})
+    res.status(201).json({message: "Post created successfully" , newPost})
 
     } catch (err) {
         res.status(500).json({error : err.message})
