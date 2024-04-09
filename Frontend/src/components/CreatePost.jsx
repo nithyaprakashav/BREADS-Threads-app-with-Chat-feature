@@ -5,6 +5,9 @@ import { useDisclosure } from "@chakra-ui/react";
 import { useRef, useState } from "react";
 import useImgPreview from "../hooks/useImgPreview";
 import { BsFillImageFill } from "react-icons/bs";
+import { useRecoilValue } from "recoil";
+import userAtom from "../atoms/userAtom";
+import useShowToast from "../hooks/useShowToast";
 const MAX_CHAR = 500
 
 
@@ -14,6 +17,9 @@ const CreatePost = () => {
     const {handleImageChange , imageUrl , setImageUrl} = useImgPreview()
     const imageRef = useRef(null)
     const [remainingChar , setRemainingChar] = useState(MAX_CHAR)
+    const user = useRecoilValue(userAtom)
+    const showToast = useShowToast()
+    
 
     const handleTextChange = (e) => {
         const inputText = e.target.value
@@ -25,11 +31,27 @@ const CreatePost = () => {
         }else{
             setPostText(inputText)
             setRemainingChar(MAX_CHAR - inputText.length)
+           
         }
     }
 
     const handlePost = async() => {
-
+        console.log(user.id , postText , imageUrl)
+        const response = await fetch("/api/posts/create",{
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body: JSON.stringify({postedBy:user._id , text: postText , img: imageUrl})
+        })
+        const data = await response.json()
+        console.log(data.text , "text" ,data.postedBy , "postedBy")
+        if(data.error){
+            showToast("Error" , data.error , "error")
+            return
+        }
+        showToast("Success" , data.message , "success" )
+        onClose()
     }
 
     return ( 
