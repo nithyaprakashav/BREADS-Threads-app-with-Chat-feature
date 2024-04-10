@@ -138,7 +138,7 @@ const UserNavbar = ({user}) => {
                     borderRadius={"full"}>
 
                     </Box>
-                    <Link color="gray.light">instagram.com</Link>
+                    <Link color="gray.light">breads.com</Link>
                 </Flex>
                 <Flex>
                     <Box className="icon-container">

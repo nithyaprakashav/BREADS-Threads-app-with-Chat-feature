@@ -5,11 +5,11 @@ import {v2 as cloudinary} from "cloudinary"
 export const createPost = async ( req , res) => {
     
     try {
-        let {img} = req.body
-        const {postedBy , text } = req.body
+        let {img , postedBy , text} = req.body
+        // const { } = req.body
         
-        console.log(postedBy , "is available" , text)
-        if(!postedBy || !text) return res.status(400).json({error: "PostedBy and text fields are required"})
+        // console.log(postedBy , "is available" , text)
+        if(!postedBy || !text) return res.status(400).json({error: "postedBy and text fields are required"})
         const user = await User.findById(postedBy)
     if(!user) return res.status(404).json({error: "User not found"})
     if(user._id.toString() !== req.user._id.toString()){
