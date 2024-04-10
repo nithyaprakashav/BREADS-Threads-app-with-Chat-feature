@@ -30,6 +30,7 @@ export default function SignupCard() {
   const [authScreen,setAuthScreen] = useRecoilState(authScreenAtom)
   const [user , setUser ] = useRecoilState(userAtom)
   const toast = useToast()
+  const[isLoading , setIsLoading] = useState(false)
 
   const [inputs , setInputs] = useState({
     firstname:"",
@@ -40,7 +41,8 @@ export default function SignupCard() {
   })
 
   const handleSubmit =async () => {
-    console.log(inputs)
+    setIsLoading(true)
+    // console.log(inputs)
     try {
       const response = await fetch("/api/users/signup" , {
         method:"POST",
@@ -59,6 +61,8 @@ export default function SignupCard() {
       setUser(data)
     } catch (err) {
       showToast("Error" , err , "error")
+    }finally{
+      setIsLoading(false)
     }
   }
 
@@ -127,6 +131,7 @@ export default function SignupCard() {
                   bg: useColorModeValue("gray.700" , "gray.800"),
                 }}
                 onClick={handleSubmit}
+                isLoading={isLoading}
                 >
                 Sign up
               </Button>
