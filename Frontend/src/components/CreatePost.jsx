@@ -19,7 +19,7 @@ const CreatePost = () => {
     const [remainingChar , setRemainingChar] = useState(MAX_CHAR)
     const user = useRecoilValue(userAtom)
     const showToast = useShowToast()
-    
+    const [loading , setLoading] = useState(false)
 
     const handleTextChange = (e) => {
         const inputText = e.target.value
@@ -36,22 +36,31 @@ const CreatePost = () => {
     }
 
     const handlePost = async() => {
-        console.log(user.id , postText , imageUrl)
-        const response = await fetch("/api/posts/create",{
-            method:"POST",
-            headers:{
-                "Content-Type":"application/json"
-            },
-            body: JSON.stringify({postedBy:user._id , text: postText , img: imageUrl})
-        })
-        const data = await response.json()
-        console.log(data.text , "text" ,data.postedBy , "postedBy")
-        if(data.error){
-            showToast("Error" , data.error , "error")
-            return
+        setLoading(true)
+        try {
+            console.log(user.id , postText , imageUrl)
+            const response = await fetch("/api/posts/create",{
+                method:"POST",
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                body: JSON.stringify({postedBy:user.id , text: postText , img: imageUrl})
+            })
+            const data = await response.json()
+            console.log(data.text , "text" ,data.postedBy , "postedBy")
+            if(data.error){
+                showToast("Error" , data.error , "error")
+                return
+            }
+            showToast("Success" , data.message , "success" )
+            onClose()
+            setPostText("")
+            setImageUrl("")
+        } catch (err) {
+            showToast("Error" , err , "error")
+        }finally{
+            setLoading(false)
         }
-        showToast("Success" , data.message , "success" )
-        onClose()
     }
 
     return ( 
@@ -108,7 +117,7 @@ const CreatePost = () => {
                 </ModalBody>
 
                 <ModalFooter>
-                    <Button colorScheme='blue' mr={3} onClick={handlePost}>
+                    <Button colorScheme='blue' mr={3} onClick={handlePost} isLoading={loading}>
                     Post
                     </Button>
                 </ModalFooter>
