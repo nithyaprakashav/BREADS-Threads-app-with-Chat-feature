@@ -1,9 +1,51 @@
 import { Flex } from "@chakra-ui/react";
 import { useState } from "react";
 import { Text, Box } from "@chakra-ui/react";
+import { useRecoilValue } from "recoil";
+import userAtom from "../atoms/userAtom";
+import useShowToast from "../hooks/useShowToast";
 
-const Icons = ({post}) => {
-    const [liked , setLiked] = useState(false)
+const Icons = ({post_}) => {
+    console.log(post_)
+    
+    const user = useRecoilValue(userAtom)
+    const showToast = useShowToast()
+    const[post , setPost] = useState(post_)
+    if(!post_) return null
+    const [liked , setLiked] = useState(post_.likes ? post_.likes?.includes(user?.id) : false)
+    const[isLiking , setIsLiking] = useState(false)
+
+    const handleLikedUnliked = async () => {
+        if(!user) return showToast("Error" , "You must be logged in to like a post" , "error")
+        if(isLiking) return
+        setIsLiking(true)
+        try {
+            const response = await fetch(`/api/posts/like/${post_._id}`,{
+                method:"PUT",
+                headers:{
+                    "Content-Type":"application/json"
+                }
+            })
+            const data = await response.json()
+            if(data.error) {
+                showToast("Error", data.error , "error")
+                return
+            }
+            console.log(data)
+            if(!liked){
+                //liked = true
+                setPost({...post , likes:[...post.likes , user.id]})
+            }else{
+                setPost({...post , likes:[...post.likes.filter(id => id!== user.id)]})
+            }
+            setLiked(!liked)
+        } catch (error) {
+            showToast("Error" , error , "error")
+        }finally{
+            setIsLiking(false)
+        }
+    }
+
     return ( 
                 <Flex flexDirection={"column"} >
                     <Flex gap={3} my={2} onClick={(e) => e.preventDefault()}>
