@@ -1,10 +1,11 @@
 import { Avatar, Box, Flex ,Text} from "@chakra-ui/react";
 import {Image} from "@chakra-ui/image"
 import { BsThreeDots } from "react-icons/bs";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Icons from "./Icons";
 import { useEffect, useState } from "react";
 import useShowToast from "../hooks/useShowToast";
+import {formatDistanceToNow} from "date-fns"
 
 const Post = ({ post , postedBy }) => {
     const [liked , setLiked] = useState(false)
@@ -13,6 +14,7 @@ const Post = ({ post , postedBy }) => {
     console.log(post.img)
     // console.log(user.firstname)
     const showToast = useShowToast()
+    const navigate = useNavigate()
 
     useEffect(()=>{
         const fetchUserInfo = async () => {
@@ -34,14 +36,17 @@ const Post = ({ post , postedBy }) => {
         fetchUserInfo()
     },[postedBy , showToast])
 
-
+    if(!user) return null
     return ( 
-        <Link to={"/nithyaprakash/post/1"}>
+        <Link to={`/${user.username}/post/${post._id}`}>
             <Flex gap={3} mb={4} py={5}>
                 <Flex flexDirection={"column"}
                 alignItems={"center"}
                 >
-                    <Avatar size={"md"} name='' src={user?.profilePic} />
+                    <Avatar size={"md"} name={user?.username} src={user?.profilePic} onClick={(e)=>{
+                        e.preventDefault()
+                        navigate(`/${user.username}`)
+                    }}/>
                     <Box 
                     width={"1px"} 
                     height={"full"} 
@@ -52,24 +57,29 @@ const Post = ({ post , postedBy }) => {
                     position={"relative"}
                     w={"full"}
                     >
-                        <Avatar  
-                        size={"xs"}
-                        name="Naruto"
-                        src="/naruto.png"
-                        position={"absolute"}
-                        top={"0px"}
-                        left={"20px"}
-                        padding={"2px"}
-                        />
-                        <Avatar  
-                        size={"xs"}
-                        name="Jiraiya"
-                        src="/Jiraiya.jpg"
-                        position={"absolute"}
-                        top={"0px"}
-                        left={"-2px"}
-                        padding={"2px"}
-                        />
+                        {post.replies ? post.replies[0]: null && (
+                            <Avatar  
+                            size={"xs"}
+                            name={post.username}
+                            src={post.replies ? post.replies[0].profilePic : null}
+                            position={"absolute"}
+                            top={"0px"}
+                            left={"20px"}
+                            padding={"2px"}
+                            />
+                        )}
+                        
+                        {post.replies ? post.replies[1]: null && (
+                            <Avatar  
+                            size={"xs"}
+                            name={post.username}
+                            src={post.replies ? post.replies[0].profilePic : null}
+                            position={"absolute"}
+                            top={"0px"}
+                            left={"-2px"}
+                            padding={"2px"}
+                            />
+                        )}
                     </Box>
                 </Flex>
                 <Flex
@@ -85,14 +95,21 @@ const Post = ({ post , postedBy }) => {
                             <Text 
                             fontSize={"sm"}
                             fontWeight={"bold"}
+                            onClick={(e)=>{
+                                e.preventDefault()
+                                navigate(`/${user.username}`)
+                            }}
                             >
                                 {`${user?.username}`}
                             </Text>
                             <Image src="/verified.png" w={4} h={4} ml={1}/>
                         </Flex>
                         <Flex gap={4} alignItems={"center"} >
-                            <Text fontSize={"sm"} color={"gray.light"} >1d</Text>
-                            <BsThreeDots/>
+                            <Text fontSize={"sm"} textAlign={"right"}
+                             width={"36"} color={"gray.light"} >
+                                {post.createdAt ? formatDistanceToNow(new Date(post.createdAt)) : 0} ago
+                            </Text>
+                            
                         </Flex>
                     </Flex>
 
