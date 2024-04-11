@@ -8,7 +8,7 @@ import useShowToast from "../hooks/useShowToast";
 import {formatDistanceToNow} from "date-fns"
 
 const Post = ({ post , postedBy }) => {
-    const [liked , setLiked] = useState(false)
+    
     const[user , setUser] = useState(null)
     console.log(post)
     console.log(post.img)
@@ -126,14 +126,10 @@ const Post = ({ post , postedBy }) => {
                     gap={3}
                     my={1}
                     >
-                        <Icons liked={liked} setLiked={setLiked} />
+                        <Icons post={post} />
                     </Flex>
 
-                    <Flex gap={2} alignItems={"center"}>
-                        <Text color={"gray.light"} fontSize={"sm"}>{post.replies ? post.replies.length : 0} replies</Text>
-                        <Box w={0.5} h={0.5} borderRadius={"full"} bg={"gray.light"} fontSize={"sm"} ></Box>
-                        <Text color={"gray.light"} fontSize={"sm"}>{post.likes ? post.likes.length : 0} likes</Text>
-                    </Flex>
+                    
 
                 </Flex>
             </Flex>
