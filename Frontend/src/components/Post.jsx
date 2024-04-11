@@ -1,4 +1,5 @@
-import { Avatar, Box, Flex ,Text , Image} from "@chakra-ui/react";
+import { Avatar, Box, Flex ,Text} from "@chakra-ui/react";
+import {Image} from "@chakra-ui/image"
 import { BsThreeDots } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import Icons from "./Icons";
@@ -7,21 +8,31 @@ import useShowToast from "../hooks/useShowToast";
 
 const Post = ({ post , postedBy }) => {
     const [liked , setLiked] = useState(false)
+    const[user , setUser] = useState(null)
     console.log(post)
     console.log(post.img)
+    // console.log(user.firstname)
     const showToast = useShowToast()
 
     useEffect(()=>{
         const fetchUserInfo = async () => {
             try {
                 const response = await fetch(`/api/users/profile/${postedBy}`)
+                const data = await response.json()
+                console.log(data)
+                if(data.error){
+                    showToast("Error" , data.error , "error")
+                    return
+                }
+                setUser(data)
             } catch (error) {
                 showToast("Error" , error.message , "error")
+                setUser(null)
             }
         }
 
         fetchUserInfo()
-    },[])
+    },[postedBy , showToast])
 
 
     return ( 
@@ -30,7 +41,7 @@ const Post = ({ post , postedBy }) => {
                 <Flex flexDirection={"column"}
                 alignItems={"center"}
                 >
-                    <Avatar size={"md"} name="Nithya Prakash" src="/np-avatar.jpg" />
+                    <Avatar size={"md"} name='' src={user?.profilePic} />
                     <Box 
                     width={"1px"} 
                     height={"full"} 
@@ -75,7 +86,7 @@ const Post = ({ post , postedBy }) => {
                             fontSize={"sm"}
                             fontWeight={"bold"}
                             >
-                                nithyaprakash
+                                {`${user?.username}`}
                             </Text>
                             <Image src="/verified.png" w={4} h={4} ml={1}/>
                         </Flex>
@@ -86,7 +97,7 @@ const Post = ({ post , postedBy }) => {
                     </Flex>
 
                     <Text fontSize={"sm"}>{post.text}</Text>
-                    {post.Img && (<Box
+                    {post.img && (<Box
                     borderRadius={6}
                     overflow={"hidden"}
                     border={"1px solid"}
