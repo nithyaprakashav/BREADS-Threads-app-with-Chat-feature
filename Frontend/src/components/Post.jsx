@@ -10,8 +10,8 @@ import {formatDistanceToNow} from "date-fns"
 const Post = ({ post , postedBy }) => {
     
     const[user , setUser] = useState(null)
-    console.log(post)
-    console.log(post.img)
+    // console.log(post)
+    // console.log(post.img)
     // console.log(user.firstname)
     const showToast = useShowToast()
     const navigate = useNavigate()
@@ -21,7 +21,7 @@ const Post = ({ post , postedBy }) => {
             try {
                 const response = await fetch(`/api/users/profile/${postedBy}`)
                 const data = await response.json()
-                console.log(data)
+                // console.log(data)
                 if(data.error){
                     showToast("Error" , data.error , "error")
                     return
@@ -126,7 +126,7 @@ const Post = ({ post , postedBy }) => {
                     gap={3}
                     my={1}
                     >
-                        <Icons post={post} />
+                        <Icons post_={post} />
                     </Flex>
 
                     
