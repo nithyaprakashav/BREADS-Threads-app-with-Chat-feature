@@ -9,8 +9,8 @@ router.get("/feed" , verifyToken , getFeedPosts)
 router.get("/:id" ,verifyToken, getPost)
 router.post ("/create" ,verifyToken, createPost)
 router.delete ("/delete/:id" ,verifyToken, deletePost)
-router.post("/like/:id" , verifyToken , likeUnlikePost )
-router.post("/comment/:id" , verifyToken , commentPost )
+router.put("/like/:id" , verifyToken , likeUnlikePost )
+router.put("/comment/:id" , verifyToken , commentPost )
 
 
 export default router
