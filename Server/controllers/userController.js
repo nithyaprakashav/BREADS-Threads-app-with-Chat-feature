@@ -116,6 +116,7 @@ const updateUser = async (req, res) => {
         const {firstname, lastname , email , username , password , bio}= req.body
         let {profilePic} = req.body
         const userId = req.user._id
+        // console.log(userId.toString() , req.params.id)
         let user = await User.findById(userId)
         if(!user){
             return res.status(400).json({error: "User not found"})
