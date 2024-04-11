@@ -36,6 +36,7 @@ const UserNavbar = ({user}) => {
             showToast("Error" ,"You need to be logged in to follow/Unfollow","error")
             return
         }
+        // console.log(currUser.id , user._id)
         setIsLoading(true)
         try { 
             const response = await fetch(`api/users/follow/${user._id}`,{
@@ -117,12 +118,12 @@ const UserNavbar = ({user}) => {
             </Flex>
             <Text>{user.bio}</Text>
 
-            {currUser._id === user._id && (
+            {currUser.id === user._id && (
                 <Link to={"/update"}>
                     <Button size={"sm"} >Update Profile</Button>
                 </Link>
             )}
-            {currUser._id !== user._id && (
+            {currUser.id !== user._id && (
                     <Button size={"sm"} onClick={handleFollow} isLoading={isLoading}>
                         {following ? "Unfollow" : "Follow"}
                         </Button>

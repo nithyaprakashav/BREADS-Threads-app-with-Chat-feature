@@ -13,6 +13,7 @@ import {
   Avatar,
   Center,
   Box,
+  Spinner,
 } from '@chakra-ui/react'
 
 import { useRecoilState } from 'recoil'
@@ -89,9 +90,11 @@ export default function UpdateProfile() {
         <FormControl id="userName">
           <Stack direction={['column', 'row']} spacing={6}>
             <Center>
+              
               <Avatar size="xl" boxShadow={"md"}  src={imageUrl || inputs.profilePic}/>
             </Center>
             <Center w="full">
+            {/* {isLoading && <Spinner size={"xl"} alignItems={"center"} /> } */}
               <Button w="full" onClick={() => fileRef.current.click()}>Change Profile Picture</Button>
 
               <Input type='file' hidden ref={fileRef} onChange={handleImageChange} />
