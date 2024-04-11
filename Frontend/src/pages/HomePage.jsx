@@ -2,6 +2,7 @@ import { Button , Flex, Spinner,} from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import useShowToast from "../hooks/useShowToast";
 import { useEffect, useState } from "react";
+import Post from "../components/Post";
 
 const HomePage = () => {
     const showToast = useShowToast()
@@ -40,6 +41,11 @@ const HomePage = () => {
             )}
 
             {!isLoading && posts.length === 0 && <h1>Oops! You donot follow anyone</h1> }
+
+            {posts.map((post)=>(
+                <Post key={post._id} post={post} postedBy={post.postedBy} />
+            ))}
+
         </>
      );
 }
