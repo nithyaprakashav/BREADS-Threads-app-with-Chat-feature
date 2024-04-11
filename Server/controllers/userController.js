@@ -1,3 +1,4 @@
+import mongoose from "mongoose"
 import generateToken from "../Utils/generateToken.js"
 import User from "../models/UserModel.js"
 import bcrypt from 'bcrypt'
@@ -155,9 +156,17 @@ const updateUser = async (req, res) => {
 
 
 const getUserProfile = async (req, res) => {
-    const {username} = req.params
+    //query is either going to be username or userId so we can fetch by either of them
+    const {query} = req.params
     try {
-        const user = await User.findOne({username}).select("-password").select("-updatedAt")
+        let user;
+
+        //checking if the quesy is username or ObjectId
+        if(mongoose.Types.ObjectId.isValid(query)){
+            user = await User.findById(query).select("-password").select("-updatedAt")
+        }else{
+            user = await User.findOne({username: query}).select("-password").select("-updatedAt")
+        }
         if(!user) return res.status(400).json({error : "User Not Found"})
         res.status(200).json(user)
     } catch (err) {

@@ -9,6 +9,6 @@ router.post("/login" , loginUser)
 router.post("/logout" , logoutUser)
 router.post("/follow/:id" ,verifyToken, followUnfollowUser)
 router.put("/update/:id" ,verifyToken, updateUser)
-router.get("/profile/:username" , getUserProfile)
+router.get("/profile/:query" , getUserProfile)
 
 export default router
