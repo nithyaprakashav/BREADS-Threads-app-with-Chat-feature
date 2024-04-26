@@ -44,7 +44,7 @@ export default function UpdateProfile() {
       e.preventDefault()
       setIsLoading(true)
       try {
-        const response = await fetch(`/api/users/update/${user._id}`,{
+        const response = await fetch(`/api/users/update/${user.id}`,{
           method:"PUT",
           headers:{
             "Content-Type":"application/json"
