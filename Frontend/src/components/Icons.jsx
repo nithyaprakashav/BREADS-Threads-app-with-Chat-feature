@@ -15,6 +15,7 @@ const Icons = ({post_}) => {
     const [liked , setLiked] = useState(post_.likes?.includes(user?._id))
     const[isLiking , setIsLiking] = useState(false)
     const [comment , setComment] = useState("")
+    const[isCommenting , setIsCommenting] = useState(false)
     const { isOpen, onOpen, onClose } = useDisclosure()
 
     const handleLikedUnliked = async () => {
@@ -50,6 +51,7 @@ const Icons = ({post_}) => {
 
     const handleComment = async () => {
         if(!user) return showToast("Error","You must be logged in to comment","error")
+        if(isCommenting) return;
         try {
             const response = await fetch(`/api/posts/comment/${post._id}`,{
                 method:"PUT",
@@ -65,8 +67,11 @@ const Icons = ({post_}) => {
            showToast("Success" , "Replied successfully","success")
            console.log(data)
            onClose()
+           setComment("")
         } catch (err) {
             showToast("Error",err.message,"error")
+        }finally{
+            setIsCommenting(false)
         }
     }
 
@@ -139,7 +144,7 @@ const Icons = ({post_}) => {
                             </ModalBody>
 
                             <ModalFooter>
-                                <Button colorScheme='blue' mr={3} size={"sm"} onClick={handleComment} >
+                                <Button colorScheme='blue' mr={3} size={"sm"} onClick={handleComment} isLoading={isCommenting} >
                                 Reply
                                 </Button>
                             </ModalFooter>
