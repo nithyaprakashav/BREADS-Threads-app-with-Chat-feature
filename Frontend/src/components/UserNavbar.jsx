@@ -118,12 +118,12 @@ const UserNavbar = ({user}) => {
             </Flex>
             <Text>{user.bio}</Text>
 
-            {currUser.id === user._id && (
+            {currUser._id === user._id && (
                 <Link to={"/update"}>
                     <Button size={"sm"} >Update Profile</Button>
                 </Link>
             )}
-            {currUser.id !== user._id && (
+            {currUser._id !== user._id && (
                     <Button size={"sm"} onClick={handleFollow} isLoading={isLoading}>
                         {following ? "Unfollow" : "Follow"}
                         </Button>
