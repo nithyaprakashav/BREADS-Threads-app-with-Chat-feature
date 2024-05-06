@@ -129,6 +129,7 @@ export const getFeedPosts = async (req, res) => {
 export const getUserPosts = async (req, res)=>{
     const{username} = req.params
     try {
+        console.log(username)
         const user = await User.findOne({username})
         if(!user) return res.status(404).json({error:"User not found"})
         const posts = await Post.find({postedBy: user._id}).sort({createdAt:-1})

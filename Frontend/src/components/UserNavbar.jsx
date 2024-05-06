@@ -16,7 +16,7 @@ const UserNavbar = ({user}) => {
     const [following , setFollowing] = useState(user.following.includes(currUser._id))
     const [isLoading , setIsLoading] = useState(false)
     
-    console.log(following)
+    // console.log(following)
     const copyUrl =() => {
         const currUrl = window.location.href
         navigator.clipboard.writeText(currUrl).then(()=>{
