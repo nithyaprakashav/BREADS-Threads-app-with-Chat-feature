@@ -92,7 +92,7 @@ export const commentPost = async(req , res) => {
 
         if(!text) return res.status(400).json({error:"Text fields are required"})
 
-        if(profilePic) return res.status(400).json(profilePic)
+        // if(profilePic) return res.status(400).json(profilePic)
         // if(username) return res.status(400).json(username)
         
 
