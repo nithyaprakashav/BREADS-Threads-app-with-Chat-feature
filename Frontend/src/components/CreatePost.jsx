@@ -38,16 +38,16 @@ const CreatePost = () => {
     const handlePost = async() => {
         setLoading(true)
         try {
-            console.log(user.id , postText , imageUrl)
+            console.log(user._id , postText , imageUrl)
             const response = await fetch("/api/posts/create",{
                 method:"POST",
                 headers:{
                     "Content-Type":"application/json"
                 },
-                body: JSON.stringify({postedBy:user.id , text: postText , img: imageUrl})
+                body: JSON.stringify({postedBy:user._id , text: postText , img: imageUrl})
             })
             const data = await response.json()
-            console.log(data.text , "text" ,data.postedBy , "postedBy")
+            // console.log(data.text , "text" ,data.postedBy , "postedBy")
             if(data.error){
                 showToast("Error" , data.error , "error")
                 return
