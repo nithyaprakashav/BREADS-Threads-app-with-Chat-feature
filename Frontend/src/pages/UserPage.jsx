@@ -24,13 +24,29 @@ const UserPage = () => {
                 setUser(data)
                 // console.log(data)
             } catch (err) {
-                showToast("Error" , err , "error")
+                showToast("Error" , err.message , "error")
             }finally{
                 setIsLoading(false)
             }
         }
         getUser()
     },[username])
+
+
+    const getUserPosts = async ()=>{
+        try {
+            const response = await fetch("/api/posts/user/:username",{
+                method:"GET",
+            })
+            const data = await response.json()
+            console.log(data)
+            setPo
+        } catch (error) {
+            showToast("Error",error.message, "error")
+        }
+    }
+
+
 
     if(!user && isLoading){
         return (
