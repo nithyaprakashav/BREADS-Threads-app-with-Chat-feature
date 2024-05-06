@@ -6,7 +6,7 @@ import userAtom from "../atoms/userAtom";
 import useShowToast from "../hooks/useShowToast";
 
 const Icons = ({post_}) => {
-    console.log(post_)
+    // console.log(post_)
     
     const user = useRecoilValue(userAtom)
     const showToast = useShowToast()
@@ -14,6 +14,7 @@ const Icons = ({post_}) => {
     if(!post_) return null
     const [liked , setLiked] = useState(post_.likes?.includes(user?._id))
     const[isLiking , setIsLiking] = useState(false)
+    const [comment , setComment] = useState("")
     const { isOpen, onOpen, onClose } = useDisclosure()
 
     const handleLikedUnliked = async () => {
@@ -44,6 +45,28 @@ const Icons = ({post_}) => {
             showToast("Error" , error , "error")
         }finally{
             setIsLiking(false)
+        }
+    }
+
+    const handleComment = async () => {
+        if(!user) return showToast("Error","You must be logged in to comment","error")
+        try {
+            const response = await fetch(`/api/posts/comment/${post._id}`,{
+                method:"PUT",
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                body: JSON.stringify({text:comment})
+           })
+           console.log(post._id , "post ID")
+           const data = await response.json()
+           if(data.error) return showToast("Error",data.error,"error")
+           setPost({...post , comments:[...post.comments , data.comment]})
+           showToast("Success" , "Replied successfully","success")
+           console.log(data)
+           onClose()
+        } catch (err) {
+            showToast("Error",err.message,"error")
         }
     }
 
@@ -94,7 +117,7 @@ const Icons = ({post_}) => {
                         </Flex>
 
                         <Flex gap={2} alignItems={"center"}>
-                            <Text color={"gray.light"} fontSize={"sm"}>{post.replies ? post.replies.length : 0} replies</Text>
+                            <Text color={"gray.light"} fontSize={"sm"}>{post.comments ? post.comments.length : 0} replies</Text>
                             <Box w={0.5} h={0.5} borderRadius={"full"} bg={"gray.light"} fontSize={"sm"} ></Box>
                             <Text color={"gray.light"} fontSize={"sm"}>{post.likes ? post.likes.length : 0} likes</Text>
                         </Flex>
@@ -110,13 +133,13 @@ const Icons = ({post_}) => {
                             <ModalCloseButton />
                             <ModalBody pb={6}>
                                 <FormControl>
-                                <Input placeholder='Your reply goes here...' />
+                                <Input placeholder='Your reply goes here...' value={comment} onChange={(e)=> setComment(e.target.value)} />
                                 </FormControl>
 
                             </ModalBody>
 
                             <ModalFooter>
-                                <Button colorScheme='blue' mr={3} size={"sm"} >
+                                <Button colorScheme='blue' mr={3} size={"sm"} onClick={handleComment} >
                                 Reply
                                 </Button>
                             </ModalFooter>
