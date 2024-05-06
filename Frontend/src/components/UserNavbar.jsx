@@ -13,7 +13,7 @@ const UserNavbar = ({user}) => {
     const toast = useToast()
     const showToast = useShowToast()
     const currUser = useRecoilValue(userAtom)
-    const [following , setFollowing] = useState(user.following.includes(currUser._id))
+    const [following , setFollowing] = useState(user.following.includes(currUser?._id))
     const [isLoading , setIsLoading] = useState(false)
     
     // console.log(following)
@@ -57,7 +57,7 @@ const UserNavbar = ({user}) => {
                 user.followers.pop()
             }else{
                 showToast("Success" , `Followed ${user.firstname} ${user.lastname}`,"success")
-                user.followers.push(currUser._id)
+                user.followers.push(currUser?._id)
             }
 
             setFollowing(!following)
@@ -118,12 +118,12 @@ const UserNavbar = ({user}) => {
             </Flex>
             <Text>{user.bio}</Text>
 
-            {currUser._id === user._id && (
+            {currUser?.id === user._id && (
                 <Link to={"/update"}>
                     <Button size={"sm"} >Update Profile</Button>
                 </Link>
             )}
-            {currUser._id !== user._id && (
+            {currUser?.id !== user._id && (
                     <Button size={"sm"} onClick={handleFollow} isLoading={isLoading}>
                         {following ? "Unfollow" : "Follow"}
                         </Button>
