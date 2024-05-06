@@ -47,7 +47,7 @@ const Post = ({ post , postedBy }) => {
                         e.preventDefault()
                         navigate(`/${user.username}`)
                     }}/>
-                    <Box 
+                    <Box  
                     width={"1px"} 
                     height={"full"} 
                     bg={"gray.light"}
