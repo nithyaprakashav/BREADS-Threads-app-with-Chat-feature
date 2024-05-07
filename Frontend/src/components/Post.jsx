@@ -40,6 +40,27 @@ const Post = ({ post , postedBy }) => {
         fetchUserInfo()
     },[postedBy , showToast])
 
+
+    const handleDeletePost = async (e)=>{
+        try {
+            e.preventDefault()
+            console.log(post._id)
+            if(!window.confirm("Are ypu sure you want to delete this post?")) return
+            const response = await fetch(`/api/posts/delete/${post._id}`,{
+                method:"DELETE"
+            })
+            const data = response.json()
+            if(data.error){
+                showToast("Error",data.error,"error")
+                return
+            }
+            showToast("Success","Post deleted successfully","success")
+            
+        } catch (error) {
+            showToast("Error",error.message,"error")
+        }
+    }
+
     if(!user) return null
     return ( 
         <Link to={`/${user.username}/post/${post._id}`}>
@@ -114,7 +135,7 @@ const Post = ({ post , postedBy }) => {
                                 {post.createdAt ? formatDistanceToNow(new Date(post.createdAt)) : 0} ago
                             </Text>
                             
-                            {currUser.id === user._id && <DeleteIcon /> }
+                            {currUser?.id === user._id && <DeleteIcon onClick={handleDeletePost}/> }
                             
 
                         </Flex>
