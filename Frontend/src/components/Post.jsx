@@ -1,11 +1,14 @@
-import { Avatar, Box, Flex ,Text} from "@chakra-ui/react";
+import { Avatar, Box, Flex ,Text, background} from "@chakra-ui/react";
 import {Image} from "@chakra-ui/image"
-import { BsThreeDots } from "react-icons/bs";
+import { BsThreeDots,  } from "react-icons/bs";
 import { Link, useNavigate } from "react-router-dom";
 import Icons from "./Icons";
 import { useEffect, useState } from "react";
 import useShowToast from "../hooks/useShowToast";
 import {formatDistanceToNow} from "date-fns"
+import {DeleteIcon} from "@chakra-ui/icons"
+import { useRecoilValue } from "recoil";
+import userAtom from "../atoms/userAtom";
 
 const Post = ({ post , postedBy }) => {
     
@@ -15,6 +18,7 @@ const Post = ({ post , postedBy }) => {
     // console.log(user.firstname)
     const showToast = useShowToast()
     const navigate = useNavigate()
+    const currUser = useRecoilValue(userAtom)
 
     useEffect(()=>{
         const fetchUserInfo = async () => {
@@ -110,6 +114,9 @@ const Post = ({ post , postedBy }) => {
                                 {post.createdAt ? formatDistanceToNow(new Date(post.createdAt)) : 0} ago
                             </Text>
                             
+                            {currUser.id === user._id && <DeleteIcon /> }
+                            
+
                         </Flex>
                     </Flex>
 
