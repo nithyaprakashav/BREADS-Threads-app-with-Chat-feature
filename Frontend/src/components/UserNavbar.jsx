@@ -13,10 +13,11 @@ const UserNavbar = ({user}) => {
     const toast = useToast()
     const showToast = useShowToast()
     const currUser = useRecoilValue(userAtom)
-    const [following , setFollowing] = useState(user.following.includes(currUser?._id))
+    const [following , setFollowing] = useState(user.followers.includes(currUser?.id))
     const [isLoading , setIsLoading] = useState(false)
     
-    // console.log(following)
+    // console.log(following,"userId ="+user._id, "currUser id = "+ currUser?.id)
+    
     const copyUrl =() => {
         const currUrl = window.location.href
         navigator.clipboard.writeText(currUrl).then(()=>{
