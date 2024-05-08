@@ -11,8 +11,29 @@ const useGetUser = () => {
 
     useEffect(()=>{
 
-    },[username])
+        const getUser = async() => {
+            try {
+                const response= await fetch(`/api/users/profile/${username}`)
+                const data = await response.json()
+                if(data.error){
+                    showToast("Error" , data.error , "error")
+                    return
+                }
+                setUser(data)
+                // console.log(data)
+            } catch (err) {
+                showToast("Error" , err.message , "error")
+            }finally{
+                setIsLoading(false)
+            }
+        }
+        getUser()
 
+    },[username,showToast])
+
+
+
+    return {isLoading,user}
 }
  
 export default useGetUser;
