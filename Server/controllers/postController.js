@@ -46,7 +46,8 @@ export const getPost = async (req, res) => {
 
 export const deletePost = async (req , res) => {
     try {
-        const postId = req.params
+        const postId = req.params.id
+        // console.log(postId ,"from backend")
         const post =await Post.findById(postId)
         if(!post){
             return res.status(404).json({error:"Post not found"})
