@@ -23,6 +23,7 @@ const PostPage = () => {
     useEffect(()=>{
         const getPost = async ()=>{
             try {
+                
                 const response = await fetch(`/api/posts/${pid}`)
                 const data = await response.json()
                 if(data.error){
@@ -30,7 +31,9 @@ const PostPage = () => {
                     return
                 }
                 console.log(data)
+                
                 setPost(data)
+                console.log(post,"This is the post")
             } catch (error) {
                 showToast("Error", error.message,"error")
             }
@@ -41,10 +44,9 @@ const PostPage = () => {
 
     const handleDeletePost = async()=>{
         try {
-            
-            console.log(pid)
-            console.log("Post.Id", post._id)
-            console.log(`/api/posts/delete/${pid}`)
+            // console.log(pid)
+            // console.log("Post.Id", post._id)
+            // console.log(`/api/posts/delete/${pid}`)
             if(!window.confirm("Are ypu sure you want to delete this post?")) return
             const response = await fetch(`/api/posts/delete/${pid}`,{
                 method:"DELETE"
@@ -126,7 +128,11 @@ const PostPage = () => {
         </Flex>
 
         <Divider my={4}/>
-        {/* <Comment comment={"Chill bro , my girl is on this app"} likes={192} userName={"Jiraiya"} userImage={'/Jiraiya.jpg'} createdAt={"2d"}/> */}
+
+        {post.comments && post.comments.map((comment)=>(
+            <Comment key={comment._id} comment={comment} lastComment={comment._id === post.comments[post.comments.length-1]._id} />
+        ))}
+        
         </>
      );
 }
