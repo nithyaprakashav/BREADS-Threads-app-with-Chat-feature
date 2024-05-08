@@ -49,7 +49,7 @@ const Post = ({ post , postedBy }) => {
             const response = await fetch(`/api/posts/delete/${post._id}`,{
                 method:"DELETE"
             })
-            const data = response.json()
+            const data = await response.json()
             if(data.error){
                 showToast("Error",data.error,"error")
                 return

@@ -6,7 +6,7 @@ import Comment from "../components/Comment";
 import useShowToast from "../hooks/useShowToast";
 import useGetUser from "../hooks/useGetUser";
 import {Spinner } from "@chakra-ui/react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import userAtom from "../atoms/userAtom";
 import {formatDistanceToNow} from "date-fns"
@@ -18,6 +18,7 @@ const PostPage = () => {
     const showToast = useShowToast()
     const {pid} = useParams()
     const currUser = useRecoilValue(userAtom)
+    const navigate = useNavigate()
 
     useEffect(()=>{
         const getPost = async ()=>{
@@ -39,7 +40,26 @@ const PostPage = () => {
 
 
     const handleDeletePost = async()=>{
-        
+        try {
+            
+            console.log(pid)
+            console.log("Post.Id", post._id)
+            console.log(`/api/posts/delete/${pid}`)
+            if(!window.confirm("Are ypu sure you want to delete this post?")) return
+            const response = await fetch(`/api/posts/delete/${pid}`,{
+                method:"DELETE"
+            })
+            const data = await response.json()
+            if(data.error){
+                showToast("Error",data.error,"error")
+                return
+            }
+            showToast("Success","Post deleted successfully","success")
+            navigate(`/${user.username}`)
+            
+        } catch (error) {
+            showToast("Error",error.message,"error")
+        }
     }
     
     if(!user && isLoading){
@@ -70,7 +90,7 @@ const PostPage = () => {
                     {post.createdAt ? formatDistanceToNow(new Date(post.createdAt)) : 0} ago
                 </Text>
                 
-                {currUser?.id === user._id && <DeleteIcon onClick={handleDeletePost}/> }
+                {currUser?.id === user._id && <DeleteIcon onClick={handleDeletePost} cursor={"pointer"} /> }
                 
 
             </Flex>
