@@ -94,7 +94,7 @@ export const commentPost = async(req , res) => {
         const userId = req.user._id
         const profilePic = req.user.profilePic
         const username  = req.user.username
-
+        
         if(!text) return res.status(400).json({error:"Text fields are required"})
 
         // if(profilePic) return res.status(400).json(profilePic)
@@ -103,7 +103,7 @@ export const commentPost = async(req , res) => {
 
         const post = await Post.findById(postId)
         if(!post) return res.status(404).json({error:"Post not found"})
-        const comment = {userId , text , username:username , profilePic:profilePic}
+        const comment = {userId , text , userName:username, userProfilePic:profilePic}
 
         post.comments.push(comment)
         await post.save()
