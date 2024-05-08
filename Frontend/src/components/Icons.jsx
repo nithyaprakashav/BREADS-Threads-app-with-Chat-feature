@@ -10,7 +10,7 @@ const Icons = ({post_}) => {
     
     const user = useRecoilValue(userAtom)
     const showToast = useShowToast()
-    const[post , setPost] = useState(post_)
+    const[post , setPost] = useState(post_ || null)
     if(!post_) return null
     const [liked , setLiked] = useState(post_.likes?.includes(user?._id))
     const[isLiking , setIsLiking] = useState(false)
