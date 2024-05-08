@@ -5,34 +5,19 @@ import { useParams } from "react-router-dom";
 import useShowToast from "../hooks/useShowToast";
 import { Flex, Spinner } from "@chakra-ui/react";
 import Post from "../components/Post";
+import useGetUser from "../hooks/useGetUser";
 
 const UserPage = () => {
 
-    const [user , setUser] = useState(null)
+    const{user , isLoading} = useGetUser()
     const showToast = useShowToast()
     const {username } = useParams()
-    const [isLoading , setIsLoading] = useState(true)
+    
     const[userPosts ,setUserPosts ]  = useState([])
     const [isFetching , setIsFetching]  = useState(true)
 
     useEffect(() => {
-        const getUser = async() => {
-            try {
-                const response= await fetch(`/api/users/profile/${username}`)
-                const data = await response.json()
-                if(data.error){
-                    showToast("Error" , data.error , "error")
-                    return
-                }
-                setUser(data)
-                // console.log(data)
-            } catch (err) {
-                showToast("Error" , err.message , "error")
-            }finally{
-                setIsLoading(false)
-            }
-        }
-        getUser()
+        
         getUserPosts()
     },[username])
 
