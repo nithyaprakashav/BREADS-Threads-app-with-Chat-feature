@@ -1,12 +1,19 @@
 import { Avatar, Flex ,Text , Image , Box, Divider, Button} from "@chakra-ui/react";
 import { BsThreeDots } from "react-icons/bs";
 import Icons from "../components/Icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Comment from "../components/Comment";
+import useShowToast from "../hooks/useShowToast";
 
 
 const PostPage = () => {
-    const [liked , setLiked] = useState(false)
+    
+    
+    
+
+    
+
+
     return ( 
         <>
         <Flex>
@@ -34,12 +41,12 @@ const PostPage = () => {
         </Box>
 
         <Flex gap={3} my={3}>
-            <Icons liked={liked} setLiked={setLiked}></Icons>
+            <Icons post_={post}></Icons>
         </Flex>
         <Flex gap={2} alignItems={"center"}>
             <Text color={"gray.light"} fontSize={"sm"}>304 replies</Text>
             <Box w={0.5} h={0.5} borderRadius={"full"} bg={"gray.light"}></Box>
-            <Text color={"gray.light"} fontSize={"sm"}>{2001 + (liked ? 1 : 0)} likes</Text>
+            <Text color={"gray.light"} fontSize={"sm"}>{2001} likes</Text>
         </Flex>
         <Divider my={4}/>
 
@@ -52,9 +59,7 @@ const PostPage = () => {
         </Flex>
 
         <Divider my={4}/>
-        <Comment comment={"Chill bro , my girl is on this app"} likes={192} userName={"Jiraiya"} userImage={'/Jiraiya.jpg'} createdAt={"2d"}/>
-        <Comment comment={"Where's the picture credit?"} likes={102} userName={"Naruto"} userImage={'/naruto.png'} createdAt={"3d"}/>
-        <Comment comment={"Looking great man!"} likes={199} userName={"Tsunade"} userImage={'/tsunade.jpg'} createdAt={"1d"} />
+        {/* <Comment comment={"Chill bro , my girl is on this app"} likes={192} userName={"Jiraiya"} userImage={'/Jiraiya.jpg'} createdAt={"2d"}/> */}
         </>
      );
 }
