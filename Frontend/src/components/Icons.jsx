@@ -12,7 +12,7 @@ const Icons = ({post_}) => {
     const showToast = useShowToast()
     const[post , setPost] = useState(post_ || null)
     if(!post_) return null
-    const [liked , setLiked] = useState(post_.likes?.includes(user?._id))
+    const [liked , setLiked] = useState(post_.likes?.includes(user?.id))
     const[isLiking , setIsLiking] = useState(false)
     const [comment , setComment] = useState("")
     const[isCommenting , setIsCommenting] = useState(false)
