@@ -1,18 +1,19 @@
-import { Flex , Image, useColorMode ,Text , Link} from "@chakra-ui/react";
+import { Flex , Image, useColorMode ,Text , Link, Button} from "@chakra-ui/react";
 import { useRecoilValue } from "recoil";
 import userAtom from "../atoms/userAtom";
-import {Link as RouterLink} from "react-router-dom"
+import {Link as RouterLink, useParams, } from "react-router-dom"
 import {AiFillHome} from "react-icons/ai"
 import {RxAvatar} from "react-icons/rx"
+import LogoutButton from "./LogoutButton";
 
-
-const NavBar = () => {
-
+const NavBar = ({isLoggedIn}) => {
+    
     const {colorMode, toggleColorMode} = useColorMode()
     const user = useRecoilValue(userAtom)
+    
     return ( 
         <Flex
-        justifyContent={"space-between"} mt={6} mb={12}
+        justifyContent={ isLoggedIn?  "space-between": "center"} mt={6} mb={12}
         >
 
             {user && (
@@ -38,13 +39,19 @@ const NavBar = () => {
 
 
             {user && (
-                <Link as={RouterLink} to={`/${user.username}`} >
-                    <RxAvatar size={25} />
-                </Link>
+
+                // {username === user.username ? ():()}
+
+                <Flex display={"flex"} alignItems={"center"} justifyContent={"space-between"} gap={3} >
+                    <Link as={RouterLink} to={`/${user.username}`} >
+                        <RxAvatar size={25} />
+                    </Link>
+                    <LogoutButton/>
+                </Flex>
             )}
 
         </Flex>
-     );
+     )
 }
  
 export default NavBar;
