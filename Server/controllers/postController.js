@@ -108,7 +108,7 @@ export const commentPost = async(req , res) => {
         post.comments.push(comment)
         await post.save()
 
-        res.status(200).json({mssg:"Comment added successfully" , post})
+        res.status(200).json(post)
         
     } catch (err) {
         res.status(500).json({error:err.message})
