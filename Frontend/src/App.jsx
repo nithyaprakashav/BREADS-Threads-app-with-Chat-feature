@@ -19,7 +19,7 @@ function App() {
 
   return (
     <Container maxW="620px">
-      <NavBar/>
+      <NavBar isLoggedIn={user} />
       <Routes>
         <Route path="/" element={user ? <HomePage/> : <Navigate to="/auth"/>}/>
         <Route path="/auth" element={!user ?<AuthPage/> : <Navigate to="/"/>}/>
@@ -28,7 +28,7 @@ function App() {
           <>
             <UserPage/>
             <CreatePost/>
-            <LogoutButton/>
+            {/* <LogoutButton/> */}
           </>
         ):(
             <UserPage/> 
@@ -37,7 +37,7 @@ function App() {
       </Routes>
 
       {/* {user && <LogoutButton/>} */}
-      {/* {user && <CreatePost/>} */}
+      {user && <CreatePost/>}
     </Container>
   )
 }
