@@ -3,10 +3,13 @@ import { Link } from "react-router-dom";
 import useShowToast from "../hooks/useShowToast";
 import { useEffect, useState } from "react";
 import Post from "../components/Post";
+import { useRecoilState } from "recoil";
+import postsAtom from "../atoms/postsAtom";
 
 const HomePage = () => {
     const showToast = useShowToast()
-    const[posts , setPosts] = useState([])
+    // const[posts , setPosts] = useState([])
+    const[posts,setPosts] = useRecoilState(postsAtom)
     const [isLoading , setIsLoading] = useState(true)
     
     useEffect(()=>{
@@ -28,7 +31,7 @@ const HomePage = () => {
             }
         }
         getFeedPosts()
-    },[showToast])
+    },[showToast,setPosts,posts])
 
 
 
