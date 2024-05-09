@@ -6,6 +6,8 @@ import useShowToast from "../hooks/useShowToast";
 import { Flex, Spinner } from "@chakra-ui/react";
 import Post from "../components/Post";
 import useGetUser from "../hooks/useGetUser";
+import { useRecoilState } from "recoil";
+import postsAtom from "../atoms/postsAtom";
 
 const UserPage = () => {
 
@@ -13,31 +15,32 @@ const UserPage = () => {
     const showToast = useShowToast()
     const {username } = useParams()
     
-    const[userPosts ,setUserPosts ]  = useState([])
+    const[userPosts ,setUserPosts ]  = useRecoilState(postsAtom)
     const [isFetching , setIsFetching]  = useState(true)
 
     useEffect(() => {
         
-        getUserPosts()
-    },[username])
-
-
-    const getUserPosts = async ()=>{
-        setIsFetching(true)
-        try {
-            const response = await fetch(`/api/posts/user/${username}`)
-            const data = await response.json()
-            console.log(data)
-            setUserPosts(data)
-        } catch (error) {
-            showToast("Error",error.message, "error")
-        }finally{
-            setIsFetching(false)
+        const getUserPosts = async ()=>{
+            setIsFetching(true)
+            try {
+                const response = await fetch(`/api/posts/user/${username}`)
+                const data = await response.json()
+                console.log(data)
+                setUserPosts(data)
+                
+            } catch (error) {
+                showToast("Error",error.message, "error")
+            }finally{
+                setIsFetching(false)
+            }
         }
-    }
 
-
-
+        getUserPosts()
+        
+    },[username,showToast,setUserPosts])
+    
+    console.log("recoil state post: ",userPosts)
+    
     if(!user && isLoading){
         return (
             <Flex justifyContent={"center"}>
@@ -68,7 +71,7 @@ const UserPage = () => {
             )}
 
             {userPosts.map((post)=>(
-                <Post  key={post._id} post={post} postedBy={post.postedBy}/>
+                <Post  key={post._id} post={post} postedBy={post.postedBy} setUserPosts={setUserPosts} />
             ))}
             
         </>
