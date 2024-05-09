@@ -6,14 +6,14 @@ import userAtom from "../atoms/userAtom";
 import useShowToast from "../hooks/useShowToast";
 import postsAtom from "../atoms/postsAtom";
 
-const Icons = ({post_}) => {
+const Icons = ({post}) => {
     // console.log(post_)
     
     const user = useRecoilValue(userAtom)
     const showToast = useShowToast()
     const[posts,setPosts] = useRecoilState(postsAtom)
-    if(!post_) return null
-    const [liked , setLiked] = useState(post_.likes?.includes(user?.id))
+    if(!post) return null
+    const [liked , setLiked] = useState(post.likes?.includes(user?.id))
     const[isLiking , setIsLiking] = useState(false)
     const [comment , setComment] = useState("")
     const[isCommenting , setIsCommenting] = useState(false)
@@ -24,7 +24,7 @@ const Icons = ({post_}) => {
         if(isLiking) return
         setIsLiking(true)
         try {
-            const response = await fetch(`/api/posts/like/${post_._id}`,{
+            const response = await fetch(`/api/posts/like/${post._id}`,{
                 method:"PUT",
                 headers:{
                     "Content-Type":"application/json"
@@ -39,7 +39,7 @@ const Icons = ({post_}) => {
             if(!liked){
                 //liked = true
                 const updatedPosts = posts.map((p)=>{
-                    if(p._id === post_._id){
+                    if(p._id === post._id){
                         return {...p, likes: [...p.likes,user._id]}
                     }
                     return p;
@@ -47,7 +47,7 @@ const Icons = ({post_}) => {
                 setPosts(updatedPosts)
             }else{
                 const updatedPosts = posts.map((p)=>{
-                    if(p._id === post_._id){
+                    if(p._id === post._id){
                         return {...p, likes: p.likes.filter((id)=> id!== user._id ) }
                     }
                     return p;
@@ -77,7 +77,7 @@ const Icons = ({post_}) => {
            const data = await response.json()
            if(data.error) return showToast("Error",data.error,"error")
             const updatedPosts = posts.map((p)=>{
-                if(p._id === post_._id){
+                if(p._id === post._id){
                     return {...p, comments: [...p.comments,data]}
                 }
                 return p;
