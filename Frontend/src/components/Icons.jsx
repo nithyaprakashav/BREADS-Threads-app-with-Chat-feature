@@ -76,7 +76,13 @@ const Icons = ({post_}) => {
            console.log(post._id , "post ID")
            const data = await response.json()
            if(data.error) return showToast("Error",data.error,"error")
-           setPost({...post , comments:[...post.comments , data.comment]})
+            const updatedPosts = posts.map((p)=>{
+                if(p._id === post_._id){
+                    return {...p, comments: [...p.comments,data]}
+                }
+                return p;
+            })
+            setPosts(updatedPosts)
            showToast("Success" , "Replied successfully","success")
            console.log(data)
            onClose()
