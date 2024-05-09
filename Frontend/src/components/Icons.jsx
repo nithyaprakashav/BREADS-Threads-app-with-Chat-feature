@@ -1,16 +1,17 @@
 import { Button, Flex, FormControl, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure } from "@chakra-ui/react";
 import { useState } from "react";
 import { Text, Box } from "@chakra-ui/react";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import userAtom from "../atoms/userAtom";
 import useShowToast from "../hooks/useShowToast";
+import postsAtom from "../atoms/postsAtom";
 
 const Icons = ({post_}) => {
     // console.log(post_)
     
     const user = useRecoilValue(userAtom)
     const showToast = useShowToast()
-    const[post , setPost] = useState(post_ || null)
+    const[posts,setPosts] = useRecoilState(postsAtom)
     if(!post_) return null
     const [liked , setLiked] = useState(post_.likes?.includes(user?.id))
     const[isLiking , setIsLiking] = useState(false)
@@ -37,9 +38,21 @@ const Icons = ({post_}) => {
             // console.log(data)
             if(!liked){
                 //liked = true
-                setPost({...post , likes:[...post.likes , user.id]})
+                const updatedPosts = posts.map((p)=>{
+                    if(p._id === post_._id){
+                        return {...p, likes: [...p.likes,user._id]}
+                    }
+                    return p;
+                })
+                setPosts(updatedPosts)
             }else{
-                setPost({...post , likes:[...post.likes.filter(id => id!== user.id)]})
+                const updatedPosts = posts.map((p)=>{
+                    if(p._id === post_._id){
+                        return {...p, likes: p.likes.filter((id)=> id!== user._id ) }
+                    }
+                    return p;
+                })
+                setPosts(updatedPosts)
             }
             setLiked(!liked)
         } catch (error) {
