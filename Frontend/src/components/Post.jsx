@@ -156,7 +156,7 @@ const Post = ({ post , postedBy }) => {
                     gap={3}
                     my={1}
                     >
-                        <Icons post_={post} />
+                        <Icons post={post} />
                     </Flex>
 
                     
