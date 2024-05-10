@@ -157,14 +157,14 @@ const Icons = ({post}) => {
                             <ModalCloseButton />
                             <ModalBody pb={6}>
                                 <FormControl>
-                                <Input placeholder='Your reply goes here...' value={comment} onChange={(e)=> setComment(e.target.value)} />
+                                <Input placeholder='Your comment goes here...' value={comment} onChange={(e)=> setComment(e.target.value)} />
                                 </FormControl>
 
                             </ModalBody>
 
                             <ModalFooter>
                                 <Button colorScheme='blue' mr={3} size={"sm"} onClick={handleComment} isLoading={isCommenting} >
-                                Reply
+                                Post comment
                                 </Button>
                             </ModalFooter>
                             </ModalContent>
