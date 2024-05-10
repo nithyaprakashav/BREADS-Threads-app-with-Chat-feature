@@ -13,10 +13,10 @@ const UserNavbar = ({user}) => {
     const toast = useToast()
     const showToast = useShowToast()
     const currUser = useRecoilValue(userAtom)
-    const [following , setFollowing] = useState(user.followers.includes(currUser?._id))
+    const [following , setFollowing] = useState(user.followers.includes(currUser?.id))
     const [isLoading , setIsLoading] = useState(false)
     
-    console.log(following,"userId ="+user._id, "currUser id = "+ currUser?._id)
+    console.log(following,"userId ="+user._id, "currUser id = "+ currUser?.id)
     
     const copyUrl =() => {
         const currUrl = window.location.href
@@ -119,12 +119,12 @@ const UserNavbar = ({user}) => {
             </Flex>
             <Text>{user.bio}</Text>
 
-            {currUser?._id === user._id && (
+            {currUser?.id === user._id && (
                 <Link to={"/update"}>
                     <Button size={"sm"} >Update Profile</Button>
                 </Link>
             )}
-            {currUser?._id !== user._id && (
+            {currUser?.id !== user._id && (
                     <Button size={"sm"} onClick={handleFollow} isLoading={isLoading}>
                         {following ? "Unfollow" : "Follow"}
                         </Button>

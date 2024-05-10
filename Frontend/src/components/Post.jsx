@@ -47,7 +47,7 @@ const Post = ({ post , postedBy }) => {
         try {
             e.preventDefault()
             console.log(post._id)
-            if(!window.confirm("Are ypu sure you want to delete this post?")) return
+            if(!window.confirm("Are you sure you want to delete this post?")) return
             const response = await fetch(`/api/posts/delete/${post._id}`,{
                 method:"DELETE"
             })
