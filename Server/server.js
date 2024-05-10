@@ -20,7 +20,7 @@ cloudinary.config({
 
 app.use(cors(
     {
-        origin:["https://deploy-mern-1whq.vercel.app"],
+        origin:["https://breads-threads-app-with-chat-feature-frontend.vercel.app/"],
         methods:["POST","GET"],
         credentials:true
     }
