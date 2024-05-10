@@ -3,6 +3,7 @@ import generateToken from "../Utils/generateToken.js"
 import User from "../models/UserModel.js"
 import bcrypt from 'bcrypt'
 import {v2 as cloudinary} from "cloudinary"
+import Post from "../models/PostModel.js"
 
 const signupUser = async (req, res) => {
     try {
@@ -145,6 +146,18 @@ const updateUser = async (req, res) => {
         user.profilePic = profilePic || user.profilePic
         user.bio = bio || user.bio
         user = await user.save()
+
+        //FINDING ALL THE POSTS THAT USER HAVE REPLIED AND UPDATED THEIR USERNAME AND PROFILEPIC IN THE COMMENTS WHEN THE USER UPDATES HIS PROFILE
+        await Post.updateMany(
+            {"comments.userId":userId},
+            {
+                $set:{
+                    "comments.$[comment].username":user.username,
+                    "comments.$[comment].userProfilePic":user.profilePic,
+                }
+            },
+            {arrayFilters:[{"comment.userId":userId}]}
+        )
 
         user.password = null
 
