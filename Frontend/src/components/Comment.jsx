@@ -16,7 +16,7 @@ const Comment = ({comment,lastReply}) => {
                     
                 </Flex>
             </Flex>
-            {lastReply?<Divider/>:null}  
+            {!lastReply?<Divider/>:null}  
 
         </>
      );
