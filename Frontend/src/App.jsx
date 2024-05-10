@@ -21,7 +21,7 @@ function App() {
     <Container maxW="620px">
       <NavBar isLoggedIn={user} />
       <Routes>
-        <Route path="https://breads-threads-app-with-chat-feature-backend.vercel.app/" element={user ? <HomePage/> : <Navigate to="/auth"/>}/>
+        <Route path="https://breads-threads-app-with-chat-feature-backend.vercel.app/" element={<AuthPage/>}/>
         <Route path="https://breads-threads-app-with-chat-feature-backend.vercel.app/auth" element={!user ?<AuthPage/> : <Navigate to="/"/>}/>
         <Route path="https://breads-threads-app-with-chat-feature-backend.vercel.app/update" element={user ?<UpdateProfile/> : <Navigate to="/auth"/>}/>
         <Route path="https://breads-threads-app-with-chat-feature-backend.vercel.app/:username" element={user ? (
