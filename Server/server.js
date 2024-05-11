@@ -35,4 +35,4 @@ app.use(cookieParser())
 app.use("/api/users" , userRoutes)
 app.use("/api/posts" , postRoutes)
 
-app.listen(3001 , () => console.log(`Server running on port ${PORT} successfully`))
+app.listen(PORT , () => console.log(`Server running on port ${PORT} successfully`))
