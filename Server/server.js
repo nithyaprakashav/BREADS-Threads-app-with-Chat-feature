@@ -8,7 +8,7 @@ import {v2 as cloudinary} from "cloudinary"
 import path from 'path'
 import { fileURLToPath } from "url"
 dotenv.config()
-// const cors = require("cors")
+
 const app = express()
 const PORT = process.env.PORT || 5000
 
@@ -23,13 +23,7 @@ cloudinary.config({
     api_secret: process.env.CLOUDINARY_API_SECRET
 })
 
-// app.use(cors(
-//     {
-//         origin:["https://breads-threads-app-with-chat-feature-frontend.vercel.app"],
-//         methods:["POST","GET","PUT","DELETE","PATCH"],
-//         credentials:true
-//     }
-// ))
+
 
 //Using client app
 app.use(express.static(path.join(__dirname,'/client/dist')))
