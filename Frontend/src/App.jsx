@@ -21,10 +21,10 @@ function App() {
     <Container maxW="620px">
       <NavBar isLoggedIn={user} />
       <Routes>
-        <Route path="https://breads-threads-app-with-chat-feature-frontend.vercel.app/" element={user ? <HomePage/> : <Navigate to="/auth"/>}/>
-        <Route path="https://breads-threads-app-with-chat-feature-frontend.vercel.app/auth" element={!user ?<AuthPage/> : <Navigate to="/"/>}/>
-        <Route path="https://breads-threads-app-with-chat-feature-frontend.vercel.app/update" element={user ?<UpdateProfile/> : <Navigate to="/auth"/>}/>
-        <Route path="https://breads-threads-app-with-chat-feature-frontend.vercel.app/:username" element={user ? (
+        <Route path="/" element={user ? <HomePage/> : <Navigate to="/auth"/>}/>
+        <Route path="/auth" element={!user ?<AuthPage/> : <Navigate to="/"/>}/>
+        <Route path="/update" element={user ?<UpdateProfile/> : <Navigate to="/auth"/>}/>
+        <Route path="/:username" element={user ? (
           <>
             <UserPage/>
             <CreatePost/>
@@ -33,7 +33,7 @@ function App() {
         ):(
             <UserPage/> 
         )} />
-        <Route path="https://breads-threads-app-with-chat-feature-frontend.vercel.app/:username/post/:pid" element={<PostPage/>} />
+        <Route path="/:username/post/:pid" element={<PostPage/>} />
       </Routes>
 
       {/* {user && <LogoutButton/>} */}
