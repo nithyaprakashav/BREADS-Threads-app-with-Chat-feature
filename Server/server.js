@@ -5,26 +5,37 @@ import cookieParser from "cookie-parser"
 import userRoutes from "../Server/routes/userRoutes.js"
 import postRoutes from "./routes/postRoutes.js"
 import {v2 as cloudinary} from "cloudinary"
-
+import path from 'path'
+import { fileURLToPath } from "url"
 dotenv.config()
-const cors = require("cors")
+// const cors = require("cors")
 const app = express()
 const PORT = process.env.PORT || 5000
-connectDB()
 
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+
+
+connectDB()
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_NAME,
     api_key: process.env.CLOUDINARY_API_KEY,
     api_secret: process.env.CLOUDINARY_API_SECRET
 })
 
-app.use(cors(
-    {
-        origin:["https://breads-threads-app-with-chat-feature-frontend.vercel.app"],
-        methods:["POST","GET"],
-        credentials:true
-    }
-))
+// app.use(cors(
+//     {
+//         origin:["https://breads-threads-app-with-chat-feature-frontend.vercel.app"],
+//         methods:["POST","GET","PUT","DELETE","PATCH"],
+//         credentials:true
+//     }
+// ))
+
+//Using client app
+app.use(express.static(path.join(__dirname,'/client/dist')))
+
+//render client for any path
+app.get('*', (req,res)=> res.sendFile(path.join(__dirname,'/client/dist/index.html')))
 
 app.use(express.json({limit:"50mb"}))
 app.use(express.urlencoded({extended: true}))
