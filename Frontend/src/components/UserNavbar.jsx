@@ -58,7 +58,7 @@ const UserNavbar = ({user}) => {
                 user.followers.pop()
             }else{
                 showToast("Success" , `Followed ${user.firstname} ${user.lastname}`,"success")
-                user.followers.push(currUser?._id)
+                user.followers.push(currUser?.id)
             }
 
             setFollowing(!following)
