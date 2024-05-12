@@ -8,7 +8,11 @@ import {v2 as cloudinary} from "cloudinary"
 import path from 'path'
 import { fileURLToPath } from "url"
 dotenv.config()
+<<<<<<< HEAD
 
+=======
+// const cors = require("cors")
+>>>>>>> parent of 8102e0d (step 2)
 const app = express()
 const PORT = process.env.PORT || 5000
 
@@ -23,9 +27,19 @@ cloudinary.config({
     api_secret: process.env.CLOUDINARY_API_SECRET
 })
 
+<<<<<<< HEAD
 
 
 
+=======
+// app.use(cors(
+//     {
+//         origin:["https://breads-threads-app-with-chat-feature-frontend.vercel.app"],
+//         methods:["POST","GET"],
+//         credentials:true
+//     }
+// ))
+>>>>>>> parent of 8102e0d (step 2)
 
 app.use(express.json({limit:"50mb"}))
 app.use(express.urlencoded({extended: true}))
