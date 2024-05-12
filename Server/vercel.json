@@ -1,5 +1,6 @@
 {
     "version":2,
+<<<<<<< HEAD
     "builds":[
         {"src":"*.js","use":"@vercel/node"}
     ], 
@@ -9,4 +10,8 @@
             "dest":"/"
         }
     ]
+=======
+    "builds": [{ "src": "./server.js", "use":"@vercel/node" }],
+    "routes": [{ "src": "/(.*)" , "dest":"/" }]
+>>>>>>> parent of db5f90d (changes for deploy on render)
 }
