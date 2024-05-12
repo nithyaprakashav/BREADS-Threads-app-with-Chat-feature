@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser"
 import userRoutes from "../Server/routes/userRoutes.js"
 import postRoutes from "./routes/postRoutes.js"
 import {v2 as cloudinary} from "cloudinary"
+<<<<<<< HEAD
 
 dotenv.config()
 <<<<<<< HEAD
@@ -16,6 +17,12 @@ dotenv.config()
 =======
 const cors = require("cors")
 >>>>>>> parent of db5f90d (changes for deploy on render)
+=======
+import path from 'path'
+import { fileURLToPath } from "url"
+dotenv.config()
+// const cors = require("cors")
+>>>>>>> parent of 8e5ec4c (final try render)
 const app = express()
 const PORT = process.env.PORT || 5000
 connectDB()
@@ -28,7 +35,17 @@ cloudinary.config({
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 
+=======
+// app.use(cors(
+//     {
+//         origin:["https://breads-threads-app-with-chat-feature-frontend.vercel.app"],
+//         methods:["POST","GET","PUT","DELETE","PATCH"],
+//         credentials:true
+//     }
+// ))
+>>>>>>> parent of 8e5ec4c (final try render)
 
 
 =======
