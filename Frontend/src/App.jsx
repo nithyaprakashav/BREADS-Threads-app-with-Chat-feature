@@ -21,10 +21,10 @@ function App() {
     <Container maxW="620px">
       <NavBar isLoggedIn={user} />
       <Routes>
-        <Route path="https://breads-threads-app-with-chat-feature-1.onrender.com/" element={user ? <HomePage/> : <Navigate to="/auth"/>}/>
-        <Route path="https://breads-threads-app-with-chat-feature-1.onrender.com/auth" element={!user ?<AuthPage/> : <Navigate to="/"/>}/>
-        <Route path="https://breads-threads-app-with-chat-feature-1.onrender.com/update" element={user ?<UpdateProfile/> : <Navigate to="/auth"/>}/>
-        <Route path="https://breads-threads-app-with-chat-feature-1.onrender.com/:username" element={user ? (
+        <Route path="/" element={user ? <HomePage/> : <Navigate to="/auth"/>}/>
+        <Route path="/auth" element={!user ?<AuthPage/> : <Navigate to="/"/>}/>
+        <Route path="/update" element={user ?<UpdateProfile/> : <Navigate to="/auth"/>}/>
+        <Route path="/:username" element={user ? (
           <>
             <UserPage/>
             <CreatePost/>
@@ -33,7 +33,7 @@ function App() {
         ):(
             <UserPage/> 
         )} />
-        <Route path="https://breads-threads-app-with-chat-feature-1.onrender.com/:username/post/:pid" element={<PostPage/>} />
+        <Route path="/:username/post/:pid" element={<PostPage/>} />
       </Routes>
 
       {/* {user && <LogoutButton/>} */}

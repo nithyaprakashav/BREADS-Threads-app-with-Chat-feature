@@ -8,7 +8,7 @@ export default defineConfig({
     port:3000,
     proxy:{
       "/api":{
-        target:"http://localhost:3001",
+        target:"https://breads-threads-app-with-chat-feature-1.onrender.com",
         changeOrigin: true ,
         secure: false
       }

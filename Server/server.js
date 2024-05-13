@@ -42,4 +42,4 @@ app.use("/api/posts" , postRoutes)
 //Using client app
 
 
-app.listen(3001 , () => console.log(`Server running on port ${PORT} successfully`))
+app.listen(PORT , () => console.log(`Server running on port ${PORT} successfully`))
