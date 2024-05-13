@@ -36,8 +36,8 @@ app.use(cookieParser())
 
 //Routes
 
-app.use("/api/users" , userRoutes)
-app.use("/api/posts" , postRoutes)
+app.use("https://peppy-longma-b277d4.netlify.app/api/users" , userRoutes)
+app.use("https://peppy-longma-b277d4.netlify.app/api/posts" , postRoutes)
 
 //Using client app
 
