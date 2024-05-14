@@ -33,7 +33,7 @@ cloudinary.config({
 
 // ************Deployement changes******************/
 
-const prodOrigins = [process.env.ORIGIN_1,process.env.ORIGIN_2]
+const prodOrigins = [process.env.ORIGIN]
 const devOrigin = ['http://localhost:5000']
 const allowedOrigins = process.env.NODE_ENV === 'production' ? prodOrigins : devOrigin
 
