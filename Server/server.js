@@ -33,13 +33,13 @@ cloudinary.config({
 
 // ************Deployement changes******************/
 
-const prodOrigins = [process.env.ORIGIN]
+const prodOrigins = ['https://breads-frontend.vercel.app']
 const devOrigin = ['http://localhost:5000']
 const allowedOrigins = process.env.NODE_ENV === 'production' ? prodOrigins : devOrigin
 
 app.use(cors({
     origin:(origin,callback) => {
-        if(allowedOrigins.includes(origin)){
+        if(!origin || allowedOrigins.includes(origin)){
             console.log(origin, allowedOrigins)
             callback(null , true)
         } else {
