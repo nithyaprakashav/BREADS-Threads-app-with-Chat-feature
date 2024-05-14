@@ -33,22 +33,22 @@ cloudinary.config({
 
 //************Deployement changes******************/
 
-const prodOrigins = [process.env.ORIGIN_1,process.env.ORIGIN_2]
-const devOrigin = ['http://localhost:5000']
-const allowedOrigins = process.env.NODE_ENV === 'production' ? prodOrigins : devOrigin
+// const prodOrigins = [process.env.ORIGIN_1,process.env.ORIGIN_2]
+// const devOrigin = ['http://localhost:5000']
+// const allowedOrigins = process.env.NODE_ENV === 'production' ? prodOrigins : devOrigin
 
-app.use(cors({
-    origin:(origin,callback) => {
-        if(allowedOrigins.includes(origin)){
-            console.log(origin, allowedOrigins)
-            callback(null , true)
-        } else {
-            callback(new Error('Not allowed by CORS'))
-        }
-    },
-    credentials: true,
-    methods: ['GET', 'POST' ,'PUT' ,'DELETE']
-}))
+// app.use(cors({
+//     origin:(origin,callback) => {
+//         if(allowedOrigins.includes(origin)){
+//             console.log(origin, allowedOrigins)
+//             callback(null , true)
+//         } else {
+//             callback(new Error('Not allowed by CORS'))
+//         }
+//     },
+//     credentials: true,
+//     methods: ['GET', 'POST' ,'PUT' ,'DELETE']
+// }))
 
 
 //************Deployement changes******************/
