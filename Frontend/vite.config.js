@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-// import dotenv from "dotenv"
-// dotenv.config()
+import dotenv from "dotenv"
+dotenv.config()
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -10,7 +10,7 @@ export default defineConfig({
     port:4000,
     proxy:{
       "/api":{
-        target:"https://breads-threads-app-with-chat-feature-1.onrender.com",
+        target:process.env.BASE_URL,
         changeOrigin: true ,
         secure: false
       }
