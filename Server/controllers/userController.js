@@ -29,7 +29,7 @@ const signupUser = async (req, res) => {
 
             generateToken(newUser._id , res);
             res.status(201).json({
-                id : newUser._id,
+                _id : newUser._id,
                 firstname:newUser.name,
                 lastname:newUser.name,
                 email: newUser.email,
@@ -60,7 +60,7 @@ const loginUser = async (req ,res) => {
         generateToken(user._id  , res)
 
         res.status(200).json({
-            id:user._id,
+            _id:user._id,
             firstname:user.firstname,
             lastname:user.lastname, 
             email : user.email, 
