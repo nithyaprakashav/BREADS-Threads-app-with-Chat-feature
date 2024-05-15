@@ -13,7 +13,7 @@ const Icons = ({post}) => {
     const showToast = useShowToast()
     const[posts,setPosts] = useRecoilState(postsAtom)
     if(!post) return null
-    const [liked , setLiked] = useState(post.likes?.includes(user?.id))
+    const [liked , setLiked] = useState(post.likes?.includes(user?._id))
     const[isLiking , setIsLiking] = useState(false)
     const [comment , setComment] = useState("")
     const[isCommenting , setIsCommenting] = useState(false)
