@@ -5,6 +5,7 @@ import {Link as RouterLink, useParams, } from "react-router-dom"
 import {AiFillHome} from "react-icons/ai"
 import {RxAvatar} from "react-icons/rx"
 import LogoutButton from "./LogoutButton";
+import { BsFillChatQuoteFill } from "react-icons/bs";
 
 const NavBar = ({isLoggedIn}) => {
     
@@ -45,6 +46,9 @@ const NavBar = ({isLoggedIn}) => {
                 <Flex display={"flex"} alignItems={"center"} justifyContent={"space-between"} gap={3} >
                     <Link as={RouterLink} to={`/${user.username}`} >
                         <RxAvatar size={25} />
+                    </Link>
+                    <Link as={RouterLink} to={`/chat`} >
+                        <BsFillChatQuoteFill size={20} />
                     </Link>
                     <LogoutButton/>
                 </Flex>
