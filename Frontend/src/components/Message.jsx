@@ -17,7 +17,7 @@ const Message = ({userMessage,}) => {
             
             >  
                 <Avatar src="" w={7} h={7} />
-                <Text maxW={"350px"} bg={"blue.400"} p={1} borderRadius={"md"} >Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tempora quae sit exercitationem numquam similique, voluptatibus est praesentium natus delectus eius!</Text>
+                <Text maxW={"350px"} bg={"gray.900"} p={1} borderRadius={"md"} >Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tempora quae sit exercitationem numquam similique.</Text>
                 
             </Flex>
         )}
