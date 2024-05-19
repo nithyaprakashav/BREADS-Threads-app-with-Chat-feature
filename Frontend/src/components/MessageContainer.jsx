@@ -17,7 +17,7 @@ const MessageContainer = () => {
 
             <Divider/>
 
-            <Flex flexDir={"column"} gap={4} my={4} height={"400px"} overflowY={"scroll"} >
+            <Flex flexDir={"column"} gap={4} p={2} my={4} height={"400px"} overflowY={"auto"} >
                 {true && (
                     [0,1,2,3,4].map((_,i)=>(
                         <Flex key={i} gap={2} alignItems={"center"} p={1} borderRadius={"md"} alignSelf={i % 2 == 0 ? "flex-start" : "flex-end"}>
