@@ -1,6 +1,6 @@
 import express from 'express'
-import verifyToken from '../middlewares/verifyToken'
-import { sendMessage } from '../controllers/messageController'
+import verifyToken from '../middlewares/verifyToken.js'
+import { sendMessage } from '../controllers/messageController.js'
 
 const router = express.Router()
 
