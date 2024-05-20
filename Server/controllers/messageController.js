@@ -1,13 +1,6 @@
-import userAtom from "../../Frontend/src/atoms/userAtom";
-import useShowToast from "../../Frontend/src/hooks/useShowToast"
-import useRecoilValue from "recoil"
-import Conversation from "../models/ConversationModel";
-import Message from "../models/MessageModel";
 
-
-
-const showToast = useShowToast()
-const user = useRecoilValue(userAtom)
+import Conversation from "../models/ConversationModel.js";
+import Message from "../models/MessageModel.js";
 
 export const sendMessage = async (req, res) => {
     try {
@@ -26,7 +19,7 @@ export const sendMessage = async (req, res) => {
                     sender: senderId
                 }
             })
-            await Conversation.save()
+            await conversation.save()
         }
 
         const newMessage = new Message({
@@ -35,8 +28,21 @@ export const sendMessage = async (req, res) => {
             text: message
         })
 
+        await Promise.all([
+            newMessage.save(),
+            conversation.updateOne({
+                lastMessage:{
+                    text:message,
+                    sender:senderId,
+
+                }
+            })
+        ])
+
+        res.status(201).json(newMessage)
+
     } catch (err) {
         res.status(500).json({error: err.message})
-        showToast("Error", err.message , "error")
+        // showToast("Error", err.message , "error")
     }
 }
