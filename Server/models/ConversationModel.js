@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 
 const convoSchema = new mongoose.Schema({
-    particpants:[{type:mongoose.Schema.Types.ObjectId, ref:'User'}],
+    participants:[{type:mongoose.Schema.Types.ObjectId, ref:'User'}],
     lastMessage:{
         text:String,
         sender:{type:mongoose.Schema.Types.ObjectId, ref:'User'}
