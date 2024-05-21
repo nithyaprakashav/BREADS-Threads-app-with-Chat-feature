@@ -77,6 +77,12 @@ export const getConversations = async (req, res)=> {
             select:"username profilePic "
         })
 
+        conversations.forEach(conversation=>{
+            conversation.participants = conversation.participants.filter(
+                participant => participant._id.toString() !== userId.toString()
+            )
+        })
+
         res.status(200).json(conversations)
 
     } catch (error) {
