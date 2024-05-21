@@ -2,9 +2,38 @@ import { SearchIcon } from "@chakra-ui/icons";
 import { Box, Button, Flex, Input, Skeleton, SkeletonCircle, Text, useColorModeValue } from "@chakra-ui/react";
 import Conversations from "../components/Conversations";
 import MessageContainer from "../components/MessageContainer";
+import { useEffect } from "react";
+import useShowToast from '../hooks/useShowToast.js'
+
+
 
 
 const ChatPage = () => {
+
+    const showToast = useShowToast()
+
+    useEffect(()=>{
+        const getConversations = async ()=>{
+            try {
+                const response = await fetch("/api/messages/conversations",{
+                    method:"GET"
+                })
+                const data = await response.json()
+                if(data.error){
+                    showToast("Error",data.error,"error")
+                    return
+                }
+                console.log(data)
+
+            } catch (error) {
+                showToast("Error",error.message,"error")
+            }
+        }
+        getConversations();
+        
+    },[showToast])
+
+
     return ( 
         <Box position={"absolute"}
             left={"50%"}
