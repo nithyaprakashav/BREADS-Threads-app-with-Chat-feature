@@ -1,6 +1,21 @@
-import { Avatar, AvatarBadge, Flex, Image, Stack, Text, WrapItem, useColorModeValue } from "@chakra-ui/react";
+import { Avatar, AvatarBadge, Flex, Image, Stack, Text, WrapItem, useColorMode, useColorModeValue } from "@chakra-ui/react";
+import { useRecoilState, useRecoilValue } from "recoil";
+import userAtom from '../atoms/userAtom'
+import {BsCheck2All} from 'react-icons/bs'
+import { useState } from "react";
+import { selectedConversationAtom } from "../atoms/messagesAtom";
 
-const Conversations = () => {
+
+
+const Conversations = ({conversation}) => {
+
+    const user = conversation?.participants[0]
+    const lastMessage = conversation?.lastMessage
+    const currUser = useRecoilValue(userAtom)
+    const[selectedConversation, setSelectedConversation] = useRecoilState(selectedConversationAtom)
+    const colorMode = useColorMode()
+    console.log(selectedConversation)
+
     return ( 
         
         <Flex
@@ -13,29 +28,54 @@ const Conversations = () => {
                 color:"white"
             }}
             borderRadius={"md"}
+            onClick={()=> setSelectedConversation({
+                _id:conversation._id,
+                userId:user._id,
+                userProfilePic:user.profilePic,
+                username:user.username
+            }) }
+            bg={
+                selectedConversation?._id === conversation?._id ? (colorMode === 'light' ? "blue.200" : "gray.800") :""
+            }
         >
-            <WrapItem>
-                <Avatar size={{
-                    base:"xs",
-                    sm:"sm",
-                    md:"md"
-                }} src="https://bit.ly/broken.link">
+        
+            {user && (
+                <>
+                    <WrapItem>
+                        <Avatar size={{
+                            base:"xs",
+                            sm:"sm",
+                            md:"md"
+                        }} src= {user.profilePic ? user.profilePic : "https://bit.ly/broken.link" } >
 
-                    <AvatarBadge boxSize={"1em"} bg="green.500" />
-                </Avatar>    
-            </WrapItem>
+                            <AvatarBadge boxSize={"1em"} bg="green.500" />
+                        </Avatar>    
+                        </WrapItem>
 
-            <Stack direction={"column"} fontSize={"sm"} >
-                <Text fontWeight={"700"}
-                    display={'flex'}
-                    alignItems={"center"}
-                >
-                    tsunade <Image src="/verified.png" w={4} h={4} ml={1} />
-                </Text>
-                <Text fontSize={"xs"} display={"flex"} alignItems={"center"} gap={1} >
-                    Random message
-                </Text>
-            </Stack>
+                        <Stack direction={"column"} fontSize={"sm"} >
+                        <Text fontWeight={"700"}
+                            display={'flex'}
+                            alignItems={"center"}
+                        >
+                            {user?.username} <Image src="/verified.png" w={4} h={4} ml={1} />
+                        </Text>
+                        <Text fontSize={"xs"} display={"flex"} alignItems={"center"} gap={1} >
+                            {currUser._id === lastMessage.sender ? 
+                            <BsCheck2All size={16} /> : ""
+                        }
+                            {lastMessage?.text.length > 18? lastMessage?.text.substring(0,18) + "..." : lastMessage?.text}
+                        </Text>
+                    </Stack>
+                </>
+            )}
+                
+
+            {conversation?.length === 0 && (
+                <Flex>
+                    <Text>Opps! You dont have any conversations yet.</Text>
+                </Flex>
+            )}  
+            
 
         </Flex>
      );
