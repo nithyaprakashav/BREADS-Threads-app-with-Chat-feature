@@ -5,7 +5,7 @@ import { sendMessage,getMessages , getConversations} from '../controllers/messag
 const router = express.Router()
 
 
-router.get('/:conversations',verifyToken,getConversations)
+router.get('/conversations',verifyToken,getConversations)
 router.get('/:otherUserId',verifyToken,getMessages)
 router.post('/',verifyToken,sendMessage)
 
