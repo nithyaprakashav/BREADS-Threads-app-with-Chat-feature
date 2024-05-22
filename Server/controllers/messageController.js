@@ -51,7 +51,9 @@ export const sendMessage = async (req, res) => {
 export const getMessages = async (req, res) => {
     const{otherUserId} = req.params;
     const userId = req.user._id
+    console.log("curruserID :",userId,"OtherUserId :",otherUserId)
     try {
+        
         const conversation = await Conversation.findOne({
             participants:{$all:[userId,otherUserId]}
         })
@@ -61,6 +63,8 @@ export const getMessages = async (req, res) => {
         const messages = await Message.find({
             conversationId: conversation._id,
         }).sort({createdAt: 1})
+
+        if(!messages) return res.status(404).json({error:"Messages not found"})
 
         res.status(200).json(messages)
 
@@ -79,7 +83,7 @@ export const getConversations = async (req, res)=> {
 
         conversations.forEach(conversation=>{
             conversation.participants = conversation.participants.filter(
-                participant => participant._id.toString() !== userId.toString()
+                (participant) => participant._id.toString() !== userId.toString()
             )
         })
 
