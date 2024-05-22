@@ -14,7 +14,7 @@ const Conversations = ({conversation}) => {
     const currUser = useRecoilValue(userAtom)
     const[selectedConversation, setSelectedConversation] = useRecoilState(selectedConversationAtom)
     const colorMode = useColorMode()
-    console.log(selectedConversation)
+    // console.log(selectedConversation)
 
     return ( 
         

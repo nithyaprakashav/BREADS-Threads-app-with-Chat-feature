@@ -132,9 +132,9 @@ const ChatPage = () => {
                 </Flex>
                 )}
 
-                
+                {selectedConversation._id && <MessageContainer/> }
 
-                <MessageContainer/>
+                
             </Flex>
         </Box>
      );
