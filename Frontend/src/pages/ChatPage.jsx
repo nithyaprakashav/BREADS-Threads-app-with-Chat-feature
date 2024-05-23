@@ -76,15 +76,22 @@ const ChatPage = () => {
             }
 
             const tempConversation = {
+                temp:true,
                 lastMessage:{
                     text:"",
                     sender:""
                 },
                 _id:Date.now(),
                 participants:[
-                    
+                    {
+                        _id:searchedUser._id,
+                        username: searchedUser.username,
+                        profilePic:searchedUser.profilePic
+                    }
                 ]
             }
+
+            setConversations(prevConversations => [...prevConversations,tempConversation] )
 
         } catch (error) {
             showToast("Error",error.message,"error")
