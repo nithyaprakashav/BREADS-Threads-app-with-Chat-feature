@@ -86,7 +86,7 @@ const MessageContainer = () => {
                 
             </Flex>
 
-                <MessageInput/>
+                <MessageInput setMessage={setMessage} />
 
         </Flex>
         
