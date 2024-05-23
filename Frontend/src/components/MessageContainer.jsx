@@ -20,6 +20,7 @@ const MessageContainer = () => {
             setIsLoading(true)
             setMessage([])
             try {
+                if(selectedConversation.temp) return;
                 const response = await fetch(`/api/messages/${selectedConversation.userId}`)
                 const data = await response.json()
                 if(data.error){
