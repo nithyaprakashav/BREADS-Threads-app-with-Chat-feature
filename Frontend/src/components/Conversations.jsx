@@ -32,7 +32,8 @@ const Conversations = ({conversation}) => {
                 _id:conversation._id,
                 userId:user._id,
                 userProfilePic:user.profilePic,
-                username:user.username
+                username:user.username,
+                temp:conversation.temp
             }) }
             bg={
                 selectedConversation?._id === conversation?._id ? (colorMode === 'light' ? "blue.200" : "gray.800") :""
