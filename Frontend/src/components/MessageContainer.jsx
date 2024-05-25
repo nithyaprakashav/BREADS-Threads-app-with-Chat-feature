@@ -13,7 +13,7 @@ const MessageContainer = () => {
 
     const currUser = useRecoilValue(userAtom)
     const showToast = useShowToast()
-    const[selectedConversation, setSelectedConversation] = useRecoilState(selectedConversationAtom)
+    const selectedConversation = useRecoilValue(selectedConversationAtom)
     const[isLoading ,setIsLoading] = useState(true)
     const[message , setMessage] = useState([])
     const setConversations = useSetRecoilState(conversationsAtom)
@@ -45,7 +45,7 @@ const MessageContainer = () => {
         })
 
         return () => socket.off("newMessage")
-    },[socket])
+    },[socket,selectedConversation,setConversations])
 
     useEffect(()=>{
         const getMessages = async ()=>{
@@ -71,7 +71,7 @@ const MessageContainer = () => {
             }
         }
         getMessages()
-    },[showToast,selectedConversation.userId])
+    },[showToast,selectedConversation.userId,selectedConversation.temp])
 
     useEffect(()=>{
         latestMessageRef.current?.scrollIntoView({behaviour:"smooth"})
