@@ -9,6 +9,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 
 import {GiConversation} from "react-icons/gi"
 import userAtom from "../atoms/userAtom.js";
+import { useSocket } from "../context/SocketContext.jsx";
 
 
 const ChatPage = () => {
@@ -20,7 +21,7 @@ const ChatPage = () => {
     const[selectedConversation, setSelectedConversation] = useRecoilState(selectedConversationAtom)
     const[searchText, setSearchText] = useState('')
     const[loadingSearch , setLoadingSearch] = useState(false)
-    
+    const{socket,onlineUsers} = useSocket()
 
 
     useEffect(()=>{
@@ -169,7 +170,7 @@ const ChatPage = () => {
 
                     {!isLoading && (
                         conversations.map((convo)=>(    
-                        <Conversations key={convo._id} conversation={convo} />
+                        <Conversations key={convo._id} isOnline={onlineUsers.includes(convo.participants[0]._id)} conversation={convo} />
                         ))
                     )}
                     <Conversations/>
