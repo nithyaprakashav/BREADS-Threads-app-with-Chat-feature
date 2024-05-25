@@ -12,6 +12,10 @@ const io = new Server(server,{
 })
 io.on('connection' , (socket) => {
     console.log("user connected is :" , socket.id)
+
+    socket.on("disconnect", ()=>{
+        console.log("user disconnected :")
+    })
 })
 
 export{io, server,app}

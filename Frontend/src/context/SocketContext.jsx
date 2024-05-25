@@ -1,8 +1,16 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import io from 'socket.io-client'
 import userAtom from "../atoms/userAtom";
 const SocketContext = createContext()
+
+
+
+export const useSocket = () => {
+    return useContext(SocketContext)
+}
+
+
 
 export const SocketContextProvider = ({children}) => {
 
@@ -19,10 +27,10 @@ export const SocketContextProvider = ({children}) => {
 
         return () => socket && socket.close()
 
-    },[socket,user?._id])
+    },[user?._id ])
 
     return (
-        <SocketContext.Provider value={"hello"} >
+        <SocketContext.Provider value={socket} >
             {children}
         </SocketContext.Provider>
     )
