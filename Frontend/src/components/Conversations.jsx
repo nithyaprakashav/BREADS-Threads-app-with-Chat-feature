@@ -7,7 +7,7 @@ import { selectedConversationAtom } from "../atoms/messagesAtom";
 
 
 
-const Conversations = ({conversation}) => {
+const Conversations = ({conversation,isOnline}) => {
 
     const user = conversation?.participants[0]
     const lastMessage = conversation?.lastMessage
@@ -49,7 +49,7 @@ const Conversations = ({conversation}) => {
                             md:"md"
                         }} src= {user.profilePic ? user.profilePic : "https://bit.ly/broken.link" } >
 
-                            <AvatarBadge boxSize={"1em"} bg="green.500" />
+                           {isOnline && <AvatarBadge boxSize={"1em"} bg="green.500" /> } 
                         </Avatar>    
                         </WrapItem>
 
