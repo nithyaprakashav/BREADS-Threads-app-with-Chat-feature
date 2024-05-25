@@ -10,11 +10,25 @@ const io = new Server(server,{
         methods:['GET','POST']
     }
 })
+
+export const getRecipientsSocketId = (recipientId) => {
+    return userSocketMap[recipientId]
+}
+
+
+const userSocketMap = {}
+
 io.on('connection' , (socket) => {
     console.log("user connected is :" , socket.id)
+    const userId = socket.handshake.query.userId
+
+    if(userId !== "undefined") userSocketMap[userId] = socket.id
+    io.emit('getOnlineUsers' , Object.keys(userSocketMap))
 
     socket.on("disconnect", ()=>{
         console.log("user disconnected :")
+        delete userSocketMap[userId];
+        io.emit('getOnlineUsers' , Object.keys(userSocketMap))
     })
 })
 
