@@ -1,14 +1,16 @@
-import { Avatar, Box, Flex, Image, Text, useColorMode } from "@chakra-ui/react";
+import { Avatar, Box, Flex, Image, Skeleton, Text, useColorMode } from "@chakra-ui/react";
 import { useRecoilValue } from "recoil";
 import { selectedConversationAtom } from "../atoms/messagesAtom";
 import userAtom from "../atoms/userAtom";
 import { BsCheck2All } from "react-icons/bs";
+import { useState } from "react";
 
 const Message = ({userMessage, message}) => {
 
     const selectedConversation = useRecoilValue(selectedConversationAtom)
     const colorMode = useColorMode()
     const currUser = useRecoilValue(userAtom)
+    const [imgLoaded , setImgLoaded] = useState(false)
     return ( 
         <>
         {userMessage ? (
@@ -25,13 +27,27 @@ const Message = ({userMessage, message}) => {
             </Flex>
             )}
 
-            {message.img && (
+            {message.img && !imgLoaded && (
                 <Flex mt={5} w={"200px"} >
                     <Image 
-                        src="/Jiraiya.jpg"
+                        src={message.img}
+                        alt="Image as Message"
+                        borderRadius={4}
+                        hidden
+                        onLoad={()=>setImgLoaded(true)}
+                    />
+                    <Skeleton width={"200px"} height={"200px"} />
+                </Flex>
+            )}
+
+            {message.img && imgLoaded && (
+                <Flex mt={5} w={"200px"} >
+                    <Image 
+                        src={message.img}
                         alt="Image as Message"
                         borderRadius={4}
                     />
+                    
                 </Flex>
             )}
                 
@@ -50,7 +66,7 @@ const Message = ({userMessage, message}) => {
                 {message.img && (
                     <Flex mt={5} w={"200px"} >
                         <Image 
-                            src=""
+                            src={message.img}
                             alt="Image as Message"
                             borderRadius={4}
                         />
