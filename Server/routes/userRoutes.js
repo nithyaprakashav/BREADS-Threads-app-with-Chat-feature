@@ -1,5 +1,6 @@
 import express from "express"
-import { signupUser , loginUser ,logoutUser ,followUnfollowUser , updateUser, getUserProfile } from "../controllers/userController.js"
+import { signupUser , loginUser ,logoutUser ,followUnfollowUser,
+updateUser, getUserProfile,getSuggestedUsers } from "../controllers/userController.js"
 import verifyToken from "../middlewares/verifyToken.js"
 
 const router = express.Router()
@@ -10,5 +11,6 @@ router.post("/logout" , logoutUser)
 router.post("/follow/:id" ,verifyToken, followUnfollowUser)
 router.put("/update/:id" ,verifyToken, updateUser)
 router.get("/profile/:query" , getUserProfile)
+router.get("/suggested",verifyToken,getSuggestedUsers)
 
 export default router
