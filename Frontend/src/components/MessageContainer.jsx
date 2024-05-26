@@ -45,7 +45,39 @@ const MessageContainer = () => {
         })
 
         return () => socket.off("newMessage")
-    },[socket,selectedConversation,setConversations])
+    },[socket,selectedConversation,])
+
+    useEffect(()=>{
+        const lastMessageIsFromHim = message.length && message[message.length-1].sender !== currUser._id
+        if(lastMessageIsFromHim){
+            socket.emit("markMessagesAsSeen",{
+                conversationId:selectedConversation._id,
+                userId:selectedConversation.userId
+            })
+        }
+
+        socket.on("messagesSeen",({conversationId})=>{
+            if(selectedConversation._id === conversationId){
+                setMessage(prev => {
+                    const updatedMessages = prev.map(msg => {
+                        if(!msg.seen){
+                            return {
+                                ...msg,
+                                seen:true
+                            }
+                        }
+                        return msg;
+                    })
+                    return updatedMessages;
+                })
+            }
+        })
+    },[socket,currUser._id,message,selectedConversation])
+
+
+    useEffect(()=>{
+        latestMessageRef.current?.scrollIntoView({behaviour:"smooth"})
+    },[message])
 
     useEffect(()=>{
         const getMessages = async ()=>{
@@ -73,9 +105,7 @@ const MessageContainer = () => {
         getMessages()
     },[showToast,selectedConversation.userId,selectedConversation.temp])
 
-    useEffect(()=>{
-        latestMessageRef.current?.scrollIntoView({behaviour:"smooth"})
-    },[message])
+    
 
 
     return ( 
@@ -116,7 +146,7 @@ const MessageContainer = () => {
 
                 {!isLoading && (
                     message.map((msg)=>(
-                        <Flex key={msg._id }direction={"column"}
+                        <Flex key={msg._id } direction={"column"}
                             ref={message.length -1 === message.indexOf(msg) ? latestMessageRef : null}
                         >
                             <Message  message={msg} userMessage={msg.sender === currUser._id } />
