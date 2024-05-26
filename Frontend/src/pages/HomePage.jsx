@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import Post from "../components/Post";
 import { useRecoilState } from "recoil";
 import postsAtom from "../atoms/postsAtom";
+import SuggestedUsers from "../components/SuggestedUsers";
 
 const HomePage = () => {
     const showToast = useShowToast()
@@ -51,8 +52,8 @@ const HomePage = () => {
                 ))}
             </Box>
 
-            <Box flex={30} border={"1px solid red"} >
-                Suggested Users Component
+            <Box flex={30}  >
+                <SuggestedUsers/>
             </Box>
         </Flex>
      );
