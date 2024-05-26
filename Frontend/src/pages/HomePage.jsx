@@ -1,4 +1,4 @@
-import { Button , Flex, Spinner,} from "@chakra-ui/react";
+import { Box, Button , Flex, Spinner,} from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import useShowToast from "../hooks/useShowToast";
 import { useEffect, useState } from "react";
@@ -36,20 +36,25 @@ const HomePage = () => {
 
 
     return ( 
-        <>
-            {isLoading && (
-                <Flex justify={"center"} >
-                    <Spinner size={"xl"} />
-                </Flex>
-            )}
+        <Flex gap={10} alignItems={"flex-start"} >
+            <Box flex={70} >
+                {isLoading && (
+                    <Flex justify={"center"} >
+                        <Spinner size={"xl"} />
+                    </Flex>
+                )}
 
-            {!isLoading && posts.length === 0 && <h1>Oops! You donot follow anyone</h1> }
+                {!isLoading && posts.length === 0 && <h1>Oops! You donot follow anyone</h1> }
 
-            {posts.map((post)=>(
-                <Post key={post._id} post={post} postedBy={post.postedBy} />
-            ))}
+                {posts.map((post)=>(
+                    <Post key={post._id} post={post} postedBy={post.postedBy} />
+                ))}
+            </Box>
 
-        </>
+            <Box flex={30} border={"1px solid red"} >
+                Suggested Users Component
+            </Box>
+        </Flex>
      );
 }
  
