@@ -7,16 +7,16 @@ import {useRecoilValue} from "recoil"
 import userAtom from "../atoms/userAtom"
 import { useEffect, useState } from "react";
 import useShowToast from "../hooks/useShowToast";
+import useFollowUnfollow from "../hooks/useFollowUnfollow";
 
 
 const UserNavbar = ({user}) => {
     const toast = useToast()
-    const showToast = useShowToast()
     const currUser = useRecoilValue(userAtom)
-    const [following , setFollowing] = useState(user.followers.includes(currUser?._id))
-    const [isLoading , setIsLoading] = useState(false)
     
-    console.log(following,"userId ="+user._id, "currUser id = "+ currUser?._id)
+    const {handleFollow , isLoading , isFollowing} = useFollowUnfollow(user)
+    
+    console.log(isFollowing,"userId ="+user._id, "currUser id = "+ currUser?._id)
     
     const copyUrl =() => {
         const currUrl = window.location.href
@@ -32,43 +32,7 @@ const UserNavbar = ({user}) => {
         
     }
     
-    const handleFollow = async () => {
-        if(!currUser){
-            showToast("Error" ,"You need to be logged in to follow/Unfollow","error")
-            return
-        }
-        // console.log(currUser.id , user._id)
-        setIsLoading(true)
-        try { 
-            const response = await fetch(`api/users/follow/${user._id}`,{
-                method:"POST",
-                headers:{
-                    "Content-Type":"application/json"
-                }
-            })
-            const data = await response.json()
-            if(data.error){
-                showToast("Error" , data.error , "error")
-                return
-            }
-            console.log(data)
-            
-            if(following){
-                showToast("Success" , `Unfollowed ${user.firstname} ${user.lastname}`,"success")
-                user.followers.pop()
-            }else{
-                showToast("Success" , `Followed ${user.firstname} ${user.lastname}`,"success")
-                user.followers.push(currUser?.id)
-            }
-
-            setFollowing(!following)
-
-        } catch (err) {
-            showToast("Error" , err , "error")
-        }finally{
-            setIsLoading(false)
-        }
-    }
+    
     
     
 
@@ -126,7 +90,7 @@ const UserNavbar = ({user}) => {
             )}
             {currUser?._id !== user._id && (
                     <Button size={"sm"} onClick={handleFollow} isLoading={isLoading}>
-                        {following ? "Unfollow" : "Follow"}
+                        {isFollowing ? "Unfollow" : "Follow"}
                         </Button>
             )}
 

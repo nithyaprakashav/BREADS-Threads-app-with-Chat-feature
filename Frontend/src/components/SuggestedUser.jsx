@@ -1,19 +1,11 @@
 import { Avatar, Box, Button, Flex, Text } from "@chakra-ui/react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import useFollowUnfollow from "../hooks/useFollowUnfollow";
 
 const SuggestedUser = ({user}) => {
 
-    const [isFollowing , setIsFollowing] = useState(true)
-    const [isUpdating , setIsUpdating] = useState(false)
-
-    const handleFollow = async ()=>{
-        try {
-            
-        } catch (error) {
-            
-        }
-    }
+    const {handleFollow, isFollowing , isLoading} = useFollowUnfollow(user)
 
 
     return ( 
@@ -36,7 +28,7 @@ const SuggestedUser = ({user}) => {
                 color={isFollowing? "black" : "white"}
                 bg={isFollowing? "white" : "blue.400"}
                 onClick={handleFollow}
-                isLoading={isUpdating}
+                isLoading={isLoading}
                 _hover={{
                     color: isFollowing? "black" : "white",
                     opacity: "0.8"
