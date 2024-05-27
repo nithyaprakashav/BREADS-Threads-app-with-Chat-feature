@@ -123,7 +123,7 @@ export const getFeedPosts = async (req, res) => {
             return res.status(404).json({error:"User not found"})
         }
         const following = user.following
-        const feedPosts  = await Post.find({postedBy:{$in:following}}).sort({createdAt:-1})
+        const feedPosts  = await Post.find({postedBy:{$in:following},isFrozen:{$ne: true}}).sort({createdAt:-1})
 
         res.status(200).json(feedPosts)
     } catch (err) {

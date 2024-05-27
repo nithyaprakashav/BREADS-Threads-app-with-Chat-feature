@@ -21,6 +21,7 @@ const UserPage = () => {
     useEffect(() => {
         
         const getUserPosts = async ()=>{
+            if(!user) return;
             setIsFetching(true)
             try {
                 const response = await fetch(`/api/posts/user/${username}`)
@@ -37,9 +38,9 @@ const UserPage = () => {
 
         getUserPosts()
         
-    },[username,showToast,setUserPosts])
+    },[username,showToast,setUserPosts,user])
     
-    console.log("recoil state post: ",userPosts)
+    
     
     if(!user && isLoading){
         return (
