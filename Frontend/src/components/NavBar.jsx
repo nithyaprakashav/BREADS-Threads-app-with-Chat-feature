@@ -7,6 +7,7 @@ import {RxAvatar} from "react-icons/rx"
 import LogoutButton from "./LogoutButton";
 import { BsFillChatQuoteFill } from "react-icons/bs";
 import { IoChatboxEllipsesOutline } from "react-icons/io5";
+import {MdOutlineSettings} from 'react-icons/md'
 
 const NavBar = ({isLoggedIn}) => {
     
@@ -48,8 +49,12 @@ const NavBar = ({isLoggedIn}) => {
                     <Link as={RouterLink} to={`/${user.username}`} >
                         <RxAvatar size={25} />
                     </Link>
+                    
                     <Link as={RouterLink} to={`/chat`} >
                         <IoChatboxEllipsesOutline size={24} />
+                    </Link>
+                    <Link as={RouterLink} to={`/settings`} >
+                        <MdOutlineSettings size={25} />
                     </Link>
                     <LogoutButton/>
                 </Flex>
