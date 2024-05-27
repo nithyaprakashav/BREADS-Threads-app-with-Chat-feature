@@ -18,9 +18,10 @@ dotenv.config()
 
 import { app, server } from "./Socket/socket.js"
 import path from "path"
+import job from "./cron/cron.js"
 dotenv.config()
 connectDB()
-// const cors = require("cors")
+job.start()
 
 
 const PORT = process.env.PORT || 5000
