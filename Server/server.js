@@ -17,12 +17,15 @@ dotenv.config()
 
 
 import { app, server } from "./Socket/socket.js"
+import path from "path"
 dotenv.config()
+connectDB()
 // const cors = require("cors")
 
 
 const PORT = process.env.PORT || 5000
-connectDB()
+const __dirname = path.resolve()
+
 
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_NAME,
@@ -33,22 +36,13 @@ cloudinary.config({
 
 // ************Deployement changes******************/
 
-// const prodOrigins = ['https://breads-frontend.vercel.app']
-// const devOrigin = ['http://localhost:5000']
-// const allowedOrigins = process.env.NODE_ENV === 'production' ? prodOrigins : devOrigin
+if(process.env.NODE_ENV === "production"){
+    app.use(express.static(path.join(__dirname,'/Frontend/dist')))
 
-// app.use(cors({
-//     origin:(origin,callback) => {
-//         if(!origin || allowedOrigins.includes(origin)){
-//             console.log(origin, allowedOrigins)
-//             callback(null , true)
-//         } else {
-//             callback(new Error('Not allowed by CORS'))
-//         }
-//     },
-//     credentials: true,
-//     methods: ['GET', 'POST' ,'PUT' ,'DELETE']
-// }))
+    app.get("*",(req,res)=>{
+        res.sendFile(path.resolve(__dirname,"Frontend","dist","index.html"))
+    })
+}
 
 
 // ************Deployement changes******************/
@@ -63,7 +57,9 @@ app.use("/api/users" , userRoutes)
 app.use("/api/posts" , postRoutes)
 app.use("/api/messages" , messageRoutes)
 
-//Using client app
 
+
+//http://localhost:3000 ==> frontend
+//http://localhost:3001 ==> server
 
 server.listen(PORT , () => console.log(`Server running on port ${PORT} successfully`))
