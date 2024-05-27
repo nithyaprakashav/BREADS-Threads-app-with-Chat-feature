@@ -134,7 +134,7 @@ const ChatPage = () => {
                 lg:"750px",
             }}
             p={4}
-            border={"1px solid red"}
+            
         >
             <Flex
                 gap={4}
