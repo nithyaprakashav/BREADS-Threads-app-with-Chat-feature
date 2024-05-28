@@ -21,6 +21,7 @@ import userAtom from '../atoms/userAtom'
 import { useRef, useState } from 'react'
 import useImgPreview from '../hooks/useImgPreview'
 import useShowToast from '../hooks/useShowToast'
+import { useNavigate } from 'react-router-dom'
 
 export default function UpdateProfile() {
     const [user , setUser ] = useRecoilState(userAtom)
@@ -39,6 +40,7 @@ export default function UpdateProfile() {
     const fileRef = useRef(null)
 
     const {handleImageChange , imageUrl} = useImgPreview()
+    const navigate = useNavigate()
 
     const handleSubmit =  async(e) => {
       e.preventDefault()
@@ -62,6 +64,7 @@ export default function UpdateProfile() {
         localStorage.setItem("userinfo" , JSON.stringify(data))
       } catch (err) {
         showToast("Error" , err.message , "error")
+        navigate(`/profile/${user._id}`)
       }finally{
         setIsLoading(false)
       }
@@ -107,7 +110,7 @@ export default function UpdateProfile() {
               <Box>
                 <FormControl >
                   <FormLabel>First Name</FormLabel>
-                  <Input type="text" placeholder="Nithya Prakash"
+                  <Input type="text" placeholder={user.firstname}
                   value={inputs.firstname}
                   onChange={(e) => setInputs({...inputs , firstname: e.target.value})}
                   />
@@ -116,7 +119,7 @@ export default function UpdateProfile() {
               <Box>
                 <FormControl  isRequired>
                   <FormLabel>Last Name</FormLabel>
-                  <Input type="text" placeholder="A V"
+                  <Input type="text" placeholder={user.lastname}
                   value={inputs.lastname}
                   onChange={(e) => setInputs({...inputs , lastname: e.target.value})}
                   />
@@ -127,7 +130,7 @@ export default function UpdateProfile() {
         <FormControl  isRequired>
           <FormLabel>User name</FormLabel>
           <Input
-          placeholder="nithyaprakashav"
+          placeholder={user.username}
             _placeholder={{ color: 'gray.500' }}
             type="text"
             value={inputs.username}
