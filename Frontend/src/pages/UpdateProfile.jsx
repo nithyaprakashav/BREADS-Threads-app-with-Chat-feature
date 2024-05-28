@@ -64,7 +64,7 @@ export default function UpdateProfile() {
         localStorage.setItem("userinfo" , JSON.stringify(data))
       } catch (err) {
         showToast("Error" , err.message , "error")
-        navigate(`/profile/${user.username}`)
+        navigate(`/${user.username}`)
       }finally{
         setIsLoading(false)
       }
